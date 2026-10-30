@@ -557,6 +557,76 @@
             .s3-timeline { flex-direction: column; gap: 30px; align-items: center; }
             .s3-line { display: none; }
         }
+
+        @media (max-width: 768px) {
+            .hud-header {
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                gap: 6px;
+            }
+            .hud-btn {
+                padding: 6px 12px;
+                font-size: 0.74rem;
+                gap: 4px;
+            }
+            .hud-right {
+                gap: 6px;
+            }
+            .slide {
+                padding: 60px 18px 70px;
+                overflow-y: auto;
+            }
+            .nav-arrow {
+                width: 38px;
+                height: 38px;
+                font-size: 1.6rem;
+            }
+            .nav-arrow.prev { left: 8px; }
+            .nav-arrow.next { right: 8px; }
+            .s1-title { font-size: 2.2rem; }
+            .s1-dept { font-size: 0.8rem; letter-spacing: 2px; }
+            .s1-sub { font-size: 1rem; }
+            .s1-cycle-icon { width: 64px; height: 64px; margin-bottom: 16px; }
+
+            /* Slide 2: Stack birth & death vertically */
+            .slide-2 {
+                flex-direction: column !important;
+                overflow-y: auto;
+            }
+            .s2-col {
+                padding: 30px 20px !important;
+                height: auto;
+            }
+            .s2-title-birth, .s2-title-death {
+                font-size: 1.6rem !important;
+                margin-bottom: 12px;
+            }
+            .s2-item {
+                font-size: 0.95rem;
+                gap: 10px;
+            }
+
+            /* Slide 3: Timeline scaling */
+            .s3-badge { font-size: 0.8rem; padding: 4px 14px; }
+            .s3-title { font-size: 1.7rem; margin-bottom: 16px; }
+            .timeline-circle { width: 70px; height: 70px; }
+            .circle-core { font-size: 1.6rem; }
+            .timeline-card { padding: 14px; max-width: 280px; }
+            .card-day { font-size: 1rem; }
+            .card-rule { font-size: 0.82rem; }
+
+            /* Slide 4: Cards */
+            .s4-heading { font-size: 1.6rem; margin-bottom: 16px; }
+            .action-card { padding: 16px; }
+            .action-title { font-size: 1.1rem; }
+            .action-desc { font-size: 0.82rem; }
+
+            /* Slide 5: Ending */
+            .s5-title { font-size: 2rem; }
+            .s5-sub { font-size: 0.95rem; }
+            .s5-badge { padding: 10px 20px; font-size: 0.9rem; }
+        }
     </style>
 </head>
 <body>

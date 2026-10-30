@@ -1712,4 +1712,119 @@ html[data-theme="dark"] .raj-quick-pill {
     box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
 }
 
+/* === GLOBAL MOBILE & TABLET RESPONSIVE SYSTEM === */
+@media (max-width: 900px) {
+    body {
+        padding: 8px;
+        align-items: flex-start;
+    }
+    .container {
+        padding: 12px;
+        border-radius: 18px;
+    }
+    .top-nav {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        padding: 10px 14px;
+    }
+    .nav-brand {
+        justify-content: center;
+        text-align: center;
+    }
+    .nav-center-tabs {
+        overflow-x: auto;
+        white-space: nowrap;
+        justify-content: flex-start;
+        padding: 4px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    .nav-center-tabs::-webkit-scrollbar {
+        display: none;
+    }
+    .nav-controls {
+        justify-content: center;
+    }
+    .arcade-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 4px;
+    }
+    .container {
+        padding: 10px 8px;
+        border-radius: 14px;
+        min-height: 100vh;
+    }
+    .raj-hero-header {
+        padding: 8px 6px 14px;
+    }
+    .raj-main-title {
+        font-size: 1.55rem !important;
+        letter-spacing: -0.5px;
+    }
+    .raj-sub-title {
+        font-size: 0.8rem !important;
+        line-height: 1.35;
+    }
+    .arcade-grid {
+        grid-template-columns: 1fr !important;
+        gap: 10px;
+    }
+    .arcade-card {
+        padding: 12px 14px !important;
+        min-height: 84px !important;
+        border-radius: 14px !important;
+    }
+    .card-icon-area {
+        width: 54px !important;
+        height: 54px !important;
+    }
+    .card-name {
+        font-size: 0.96rem !important;
+    }
+    .card-sub {
+        font-size: 0.74rem !important;
+        line-height: 1.25;
+    }
+    .arcade-arrow {
+        font-size: 1.8rem !important;
+    }
+    .nav-tab {
+        padding: 6px 12px !important;
+        font-size: 0.78rem !important;
+    }
+    .control-pill-btn {
+        padding: 5px 12px !important;
+        font-size: 0.78rem !important;
+    }
+    .raj-quick-bar {
+        gap: 8px;
+        margin-top: 10px;
+    }
+    .raj-quick-pill {
+        padding: 6px 14px;
+        font-size: 0.78rem;
+    }
+    .intro-calc-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .pie-chart-wrapper {
+        width: 240px !important;
+        height: 240px !important;
+    }
+    .stats-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .sorting-slots-row {
+        flex-direction: column !important;
+    }
+}
+
+
 
