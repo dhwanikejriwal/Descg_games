@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DES Chhattisgarh - Citizen Schemes Priority Planner (Sewa Setu)</title>
+    <meta name="description" content="Directorate of Economics & Statistics Chhattisgarh - Citizen Centric Welfare Schemes Priority Planner Kiosk Game integrated with Sewa Setu Portal">
+    <style>
+        :root {
+            --bg-dark: #0a0d14;
+            --panel-bg: rgba(18, 24, 38, 0.85);
+            --primary: #38bdf8;
+            --success: #10b981;
+            --accent: #c084fc;
+            --amber: #f59e0b;
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --card-hover: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="light"] {
+            --bg-dark: #f1f5f9;
+            --panel-bg: rgba(255, 255, 255, 0.96);
+            --primary: #0284c7;
+            --success: #059669;
+            --accent: #9333ea;
+            --amber: #d97706;
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --card-hover: rgba(0, 0, 0, 0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+
+        body {
+            background: radial-gradient(circle at 15% 15%, #2e0854 0%, #150d3a 40%, #070d24 70%, #030712 100%);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            touch-action: none;
+            -webkit-user-select: none;
+            user-select: none;
+            transition: background 0.3s;
+        }
+
+        [data-theme="light"] body {
+            background: radial-gradient(circle at 10% 10%, #fdf2f8 0%, #f0fdf4 40%, #eff6ff 100%);
+        }
+
+        .kiosk-container {
+            width: 100%;
+            max-width: 1140px;
+            height: 90vh;
+            background: var(--panel-bg);
+            border: 1.5px solid rgba(56, 189, 248, 0.35);
+            border-radius: 24px;
+            backdrop-filter: blur(24px);
+            box-shadow: 0 30px 70px rgba(0,0,0,0.7), 0 0 50px rgba(56, 189, 248, 0.15);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* --- Header --- */
+        .header {
+            padding: 14px 28px;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.22);
+            border-radius: 24px 24px 0 0;
+            z-index: 10;
+        }
+
+        [data-theme="light"] .header {
+            background: rgba(255,255,255,0.75);
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .home-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 7px 14px;
+            border-radius: 999px;
+            font-size: 0.84rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+
+        .home-btn:hover {
+            background: var(--primary);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .sewa-link-btn {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(6, 182, 212, 0.18));
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: #34d399;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+        .sewa-link-btn:hover {
+            background: rgba(16, 185, 129, 0.35);
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+        .header-title { font-size: 1.35rem; font-weight: bold; }
+        .header-subtitle { color: var(--primary); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; }
+        
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .control-pill {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .control-pill:hover { background: rgba(255,255,255,0.15); }
+
+        .progress-hud {
+            background: rgba(56, 189, 248, 0.15);
+            border: 2px solid var(--primary);
+            padding: 6px 18px;
+            border-radius: 50px;
+            text-align: right;
+            transition: 0.3s;
+        }
+        .progress-hud.complete { background: var(--success); border-color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.5); }
+        .progress-text { font-size: 1.05rem; font-weight: 800; color: #fff; }
+
+        /* --- Visual Map / Welfare Blueprint Area --- */
+        .map-area {
+            flex: 1.1;
+            padding: 18px 24px;
+            background: linear-gradient(to bottom, rgba(10, 13, 20, 0.75), rgba(10, 13, 20, 0.88)),
+                        url('assets/images/cg_dream_village_base.jpg') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 5;
+        }
+
+        [data-theme="light"] .map-area {
+            background: linear-gradient(to bottom, rgba(241, 245, 249, 0.82), rgba(241, 245, 249, 0.92)),
+                        url('assets/images/cg_dream_village_base.jpg') center/cover no-repeat;
+        }
+
+        .map-title {
+            position: absolute; top: 12px; left: 24px;
+            font-size: 0.92rem; font-weight: 700; color: var(--text-main);
+            background: rgba(0,0,0,0.55); padding: 4px 14px; border-radius: 999px;
+            backdrop-filter: blur(6px); border: 1px solid var(--glass-border);
+            display: flex; align-items: center; gap: 8px;
+        }
+
+        .sewa-badge-live {
+            background: #10b981;
+            color: #022c22;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 2px 7px;
+            border-radius: 99px;
+            text-transform: uppercase;
+        }
+
+        .plot-grid {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 180px;
+        }
+
+        .plot {
+            width: 175px; height: 165px;
+            border: 2px dashed #475569;
+            border-radius: 18px;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            background: rgba(0,0,0,0.3);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            padding: 10px;
+        }
+
+        [data-theme="light"] .plot {
+            background: rgba(241, 245, 249, 0.85);
+            border-color: #cbd5e1;
+        }
+
+        .plot.filled {
+            border: 2px solid var(--success);
+            background: rgba(16, 185, 129, 0.18);
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.28);
+            animation: popBuild 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .plot-priority-badge {
+            position: absolute;
+            top: 7px;
+            left: 8px;
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 2px 8px;
+            border-radius: 6px;
+            color: var(--primary);
+            border: 1px solid var(--glass-border);
+            display: none;
+        }
+        .plot.filled .plot-priority-badge { display: block; }
+
+        .plot-number { font-size: 3.2rem; color: rgba(255,255,255,0.06); position: absolute; font-weight: 900; }
+        [data-theme="light"] .plot-number { color: rgba(0,0,0,0.06); }
+
+        .plot-content { z-index: 10; display: none; flex-direction: column; align-items: center; text-align: center; }
+        .plot.filled .plot-content { display: flex; }
+        .plot.filled .plot-number { display: none; }
+        
+        .p-icon { font-size: 2.8rem; margin-bottom: 4px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
+        .p-name { font-size: 0.84rem; font-weight: bold; color: var(--text-main); line-height: 1.2; }
+        .p-benefit {
+            font-size: 0.7rem;
+            color: #38bdf8;
+            font-weight: 700;
+            margin-top: 4px;
+            background: rgba(56, 189, 248, 0.14);
+            padding: 2px 7px;
+            border-radius: 4px;
+            max-width: 155px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        @keyframes popBuild {
+            0% { transform: scale(0.6); opacity: 0; }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* --- Selection Area --- */
+        .selection-area {
+            background: rgba(0,0,0,0.38);
+            border-top: 1px solid var(--glass-border);
+            padding: 16px 28px 20px;
+            border-radius: 0 0 24px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 5;
+        }
+
+        [data-theme="light"] .selection-area {
+            background: rgba(248, 250, 252, 0.88);
+        }
+
+        .selection-heading-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 12px;
+        }
+
+        .selection-heading {
+            font-size: 1.02rem; 
+            color: var(--text-main); 
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sewa-hint {
+            font-size: 0.78rem;
+            color: #34d399;
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-weight: 600;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            width: 100%;
+        }
+
+        .option-btn {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 10px 12px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            min-height: 64px;
+        }
+
+        [data-theme="light"] .option-btn {
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        
+        .option-btn:hover { 
+            background: var(--card-hover);
+            transform: translateY(-2px);
+            border-color: var(--primary);
+        }
+        .option-btn:active { transform: scale(0.97); }
+        
+        .option-btn.selected {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: var(--success);
+            opacity: 0.35;
+            cursor: not-allowed;
+            filter: grayscale(100%);
+            transform: none !important;
+        }
+
+        .opt-icon { font-size: 1.75rem; flex-shrink: 0; }
+        .opt-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            text-align: left;
+            flex: 1;
+            min-width: 0;
+        }
+        .opt-name {
+            font-size: 0.86rem;
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--text-main);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .opt-benefit {
+            font-size: 0.7rem;
+            color: var(--primary);
+            font-weight: 600;
+            line-height: 1.2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Custom Input Button */
+        .option-btn.custom-btn {
+            background: rgba(192, 132, 252, 0.12);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        [data-theme="light"] .option-btn.custom-btn {
+            background: rgba(147, 51, 234, 0.08);
+            border-color: #9333ea;
+            color: #7e22ce;
+        }
+
+        /* --- Modals & Overlays --- */
+        .overlay {
+            position: absolute; inset: 0; background: rgba(10, 13, 20, 0.94);
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 50; backdrop-filter: blur(14px); text-align: center; padding: 28px;
+        }
+
+        [data-theme="light"] .overlay {
+            background: rgba(248, 250, 252, 0.94);
+        }
+
+        /* Custom Input Modal Styles */
+        .custom-modal-box {
+            background: #1e293b; border: 2px solid var(--accent); border-radius: 24px;
+            padding: 32px; width: 100%; max-width: 580px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+            display: flex; flex-direction: column; gap: 16px;
+        }
+        [data-theme="light"] .custom-modal-box {
+            background: #ffffff;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+
+        .custom-input {
+            width: 100%; padding: 16px; font-size: 1.25rem;
+            background: rgba(0,0,0,0.3); border: 2px solid #475569;
+            color: white; border-radius: 14px; outline: none;
+        }
+        [data-theme="light"] .custom-input {
+            background: #f1f5f9; color: #0f172a; border-color: #cbd5e1;
+        }
+        .custom-input:focus { border-color: var(--accent); }
+        .modal-buttons { display: flex; gap: 14px; margin-top: 6px; }
+        .modal-btn {
+            flex: 1; padding: 14px; border-radius: 12px; font-size: 1.05rem; font-weight: bold;
+            cursor: pointer; border: none; transition: 0.2s;
+        }
+        .btn-add { background: var(--accent); color: white; }
+        .btn-cancel { background: transparent; border: 2px solid #475569; color: var(--text-main); }
+
+        /* Start Screen */
+        .start-banner {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            color: #34d399;
+            padding: 6px 18px;
+            border-radius: 999px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Cinematic End Screen with Generated Scheme Blueprint Showcase */
+        #end-screen {
+            background: linear-gradient(to top, rgba(10,13,20,0.97) 0%, rgba(10,13,20,0.92) 100%),
+                        url('assets/images/cg_dream_village_base.jpg') center/cover;
+            overflow-y: auto;
+            overflow-x: hidden;
+            justify-content: flex-start;
+            padding: 16px 20px 24px;
+        }
+
+        [data-theme="light"] #end-screen {
+            background: linear-gradient(to top, rgba(248,250,252,0.97) 0%, rgba(248,250,252,0.92) 100%),
+                        url('assets/images/cg_dream_village_base.jpg') center/cover;
+        }
+
+        .end-content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        #end-screen h1 { 
+            font-size: 1.65rem; 
+            text-shadow: 0 0 20px rgba(56,189,248,0.5); 
+            color: var(--text-main); 
+            margin: 0; 
+            padding: 6px 0 2px;
+            line-height: 1.45;
+            animation: floatUp 0.6s ease-out; 
+            text-align: center;
+            overflow: visible;
+        }
+
+        #end-screen p { 
+            color: var(--primary); 
+            font-size: 0.9rem; 
+            font-weight: 600; 
+            letter-spacing: 0.3px; 
+            margin: 2px 0 10px; 
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .village-showcase-frame {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.65), 0 0 25px rgba(56,189,248,0.2);
+            border: 1.5px solid rgba(56, 189, 248, 0.4);
+            margin-bottom: 8px;
+            animation: popBuild 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: #020617;
+        }
+
+        .generated-village-img {
+            width: 100%;
+            height: auto;
+            max-height: 38vh;
+            object-fit: contain;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .village-showcase-frame:hover .generated-village-img {
+            transform: scale(1.015);
+        }
+
+        .final-showcase { 
+            display: flex; 
+            gap: 8px; 
+            margin-bottom: 8px; 
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .final-card {
+            background: rgba(255,255,255,0.07); 
+            border: 1px solid rgba(56, 189, 248, 0.45);
+            border-radius: 999px; 
+            padding: 4px 12px; 
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            backdrop-filter: blur(10px); 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            animation: popBuild 0.4s backwards;
+        }
+
+        [data-theme="light"] .final-card {
+            background: #ffffff;
+            box-shadow: 0 2px 8px rgba(2,132,199,0.1);
+        }
+
+        .final-card .fc-icon { font-size: 1.15rem; }
+        .final-card .fc-name { font-size: 0.8rem; font-weight: 700; color: var(--text-main); }
+        
+        @keyframes floatUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        .thankyou-banner {
+            background: rgba(0,0,0,0.45); 
+            padding: 5px 16px; 
+            border-radius: 999px; 
+            border: 1px solid rgba(255,255,255,0.12); 
+            margin-bottom: 12px; 
+            max-width: 720px;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        [data-theme="light"] .thankyou-banner {
+            background: rgba(255,255,255,0.85);
+            border-color: rgba(0,0,0,0.1);
+        }
+
+        .end-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #38bdf8, #2563eb); color: #fff;
+            padding: 8px 18px; border-radius: 50px; font-size: 0.92rem; font-weight: bold;
+            cursor: pointer; border: none; box-shadow: 0 6px 14px rgba(37,99,235,0.35);
+            transition: 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .start-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(37,99,235,0.45); }
+
+        .btn-download {
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 8px 18px rgba(16, 185, 129, 0.4);
+        }
+        .btn-download:hover {
+            box-shadow: 0 12px 24px rgba(16, 185, 129, 0.6);
+        }
+
+        .btn-sewa-portal {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            box-shadow: 0 8px 18px rgba(2, 132, 199, 0.4);
+        }
+        .btn-sewa-portal:hover {
+            box-shadow: 0 12px 24px rgba(2, 132, 199, 0.6);
+        }
+
+        .btn-hub-secondary {
+            background: rgba(255,255,255,0.12);
+            color: var(--text-main);
+            border: 1px solid var(--glass-border);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="kiosk-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-brand">
+                <a href="index.html" class="home-btn" title="Back to Central Games Hub">
+                    <span>🏠</span> <span id="btn-home-text">All Games Hub</span>
+                </a>
+                <a href="https://sewasetu.cgstate.gov.in/home?lang=hi" target="_blank" rel="noopener noreferrer" class="sewa-link-btn" title="Visit Official CG Sewa Setu Portal">
+                    <span>🌐</span> <span id="sewa-link-text">Sewa Setu Portal</span>
+                </a>
+                <div>
+                    <div class="header-subtitle" id="hdr-sub">Directorate of Economics & Statistics • Sewa Setu</div>
+                    <div class="header-title" id="hdr-title">Citizen Schemes Priority Planner</div>
+                </div>
+            </div>
+
+            <div class="header-controls">
+                <button class="control-pill" onclick="toggleTheme()" id="theme-btn">☀️ Light</button>
+                <button class="control-pill" onclick="toggleLanguage()" id="lang-btn">🌐 हिंदी</button>
+                <div class="progress-hud" id="hud">
+                    <div class="progress-text"><span id="sel-count">0</span> / 4 <span id="built-label">Prioritized</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Welfare Blueprint Area -->
+        <div class="map-area">
+            <div class="map-title" id="map-title-text">
+                <span>📋 Your Top 4 Citizen Scheme Priorities</span>
+                <span class="sewa-badge-live">Sewa Setu CG</span>
+            </div>
+            <div class="plot-grid" id="plot-grid">
+                <div class="plot" id="plot-0">
+                    <div class="plot-priority-badge">#1 Priority</div>
+                    <div class="plot-number">1</div>
+                </div>
+                <div class="plot" id="plot-1">
+                    <div class="plot-priority-badge">#2 Priority</div>
+                    <div class="plot-number">2</div>
+                </div>
+                <div class="plot" id="plot-2">
+                    <div class="plot-priority-badge">#3 Priority</div>
+                    <div class="plot-number">3</div>
+                </div>
+                <div class="plot" id="plot-3">
+                    <div class="plot-priority-badge">#4 Priority</div>
+                    <div class="plot-number">4</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Selection Area -->
+        <div class="selection-area">
+            <div class="selection-heading-row">
+                <div class="selection-heading" id="selection-heading-text">
+                    🎯 Tap your Top 4 Citizen-Centric Schemes:
+                </div>
+                <div class="sewa-hint" id="sewa-hint-text">
+                    🔗 sewasetu.cgstate.gov.in • Toll Free 1076
+                </div>
+            </div>
+            <div class="options-grid" id="options-grid">
+                <!-- Dynamically injected citizen schemes -->
+            </div>
+        </div>
+
+        <!-- Custom Input Modal -->
+        <div class="overlay" id="custom-modal">
+            <div class="custom-modal-box">
+                <h2 id="modal-heading">✏️ Suggest Your Own Scheme / Need</h2>
+                <input type="text" id="custom-input" class="custom-input" placeholder="e.g. Women Entrepreneur Subsidy" maxlength="28" autocomplete="off">
+                <div class="modal-buttons">
+                    <button class="modal-btn btn-cancel" onclick="closeCustomModal()" id="btn-cancel-text">Cancel</button>
+                    <button class="modal-btn btn-add" onclick="submitCustomOption()" id="btn-add-text">Add Scheme ✨</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Start Screen -->
+        <div class="overlay" id="start-screen" style="display: flex;">
+            <div class="start-banner">
+                🌐 सेवा सेतु (Sewa Setu) • लोक सेवा गारंटी एवं नागरिक कल्याण मंच
+            </div>
+            <h1 style="color:var(--primary); font-size:2.8rem; margin-bottom:10px;" id="start-title">Prioritize Your Citizen Schemes!</h1>
+            <p style="font-size:1.18rem; max-width:750px; margin-bottom:16px; color:var(--text-main); line-height:1.5;" id="start-desc">
+                Which Government welfare schemes and digital citizen services matter most to you and your family? Tap your Top 4 priorities to build your personalized Welfare Blueprint powered by Sewa Setu!
+            </p>
+            <p style="color:#fbbf24; font-size:1.1rem; font-weight:bold; margin-bottom: 28px;" id="start-instruction">
+                Select your Top 4 flagship welfare schemes to generate your certified Blueprint!
+            </p>
+            <div style="display:flex; gap:16px; flex-wrap:wrap; justify-content:center;">
+                <button class="start-btn" onclick="startGame()" id="start-btn-text">Start Prioritizing ▶</button>
+                <a href="https://sewasetu.cgstate.gov.in/home?lang=hi" target="_blank" rel="noopener noreferrer" class="start-btn btn-sewa-portal">
+                    🌐 Open Sewa Setu Portal
+                </a>
+                <a href="index.html" class="start-btn btn-hub-secondary">🏠 All Games</a>
+            </div>
+        </div>
+
+        <!-- Cinematic End Screen with Generated Scheme Blueprint Showcase -->
+        <div class="overlay" id="end-screen">
+            <div class="end-content-wrapper">
+                <h1 id="end-title">🌟 YOUR WELFARE BLUEPRINT IS READY!</h1>
+                <p id="end-sub">Custom Citizen Blueprint Generated With Your 4 Chosen Schemes</p>
+
+                <!-- Generated Blueprint Image Frame -->
+                <div class="village-showcase-frame">
+                    <img id="generatedVillageImg" class="generated-village-img" src="assets/images/cg_dream_village_base.jpg" alt="Generated Citizen Blueprint">
+                </div>
+
+                <!-- 4 Selected Schemes Showcase -->
+                <div class="final-showcase" id="final-list">
+                    <!-- Populated dynamically with chosen schemes -->
+                </div>
+
+                <div class="thankyou-banner" id="thankyou-box">
+                    <span style="color:#38bdf8; font-weight:bold;">Thank You!</span> This preference data assists the Directorate of Economics & Statistics and Sewa Setu in prioritizing public resource delivery and welfare reach.
+                </div>
+
+                <div class="end-actions">
+                    <button class="start-btn btn-download" onclick="downloadVillageImage()" id="btn-download-img">
+                        📥 <span id="btn-download-text">Download Welfare Blueprint</span>
+                    </button>
+                    <a href="https://sewasetu.cgstate.gov.in/home?lang=hi" target="_blank" rel="noopener noreferrer" class="start-btn btn-sewa-portal" id="btn-sewa-link">
+                        🌐 <span id="btn-sewa-text">Visit Sewa Setu Portal (सेवा सेतु)</span>
+                    </a>
+                    <button class="start-btn" onclick="resetGame()" id="btn-plan-again">
+                        ↺ <span id="btn-plan-again-text">Prioritize Again</span>
+                    </button>
+                    <a href="index.html" class="start-btn btn-hub-secondary" id="btn-back-hub">
+                        🏠 <span id="btn-back-hub-text">All Games Hub</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Hidden Canvas for Composite Welfare Blueprint Generation -->
+            <canvas id="villageCanvas" width="1280" height="720" style="display:none;"></canvas>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('contextmenu', event => event.preventDefault()); // Kiosk protection
+
+        // Sound Synthesis (Zero external audio assets required)
+        const AudioFX = {
+            ctx: null,
+            init() {
+                if (!this.ctx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    if (AudioContext) this.ctx = new AudioContext();
+                }
+            },
+            playClick() {
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(540, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(880, this.ctx.currentTime + 0.08);
+                    gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.08);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.08);
+                } catch(e) {}
+            },
+            playPop() {
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(320, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(640, this.ctx.currentTime + 0.15);
+                    gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.15);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.15);
+                } catch(e) {}
+            },
+            playFanfare() {
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    const notes = [523.25, 659.25, 783.99, 1046.50];
+                    notes.forEach((freq, idx) => {
+                        const osc = this.ctx.createOscillator();
+                        const gain = this.ctx.createGain();
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.12);
+                        gain.gain.setValueAtTime(0.18, this.ctx.currentTime + idx * 0.12);
+                        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.12 + 0.35);
+                        osc.connect(gain);
+                        gain.connect(this.ctx.destination);
+                        osc.start(this.ctx.currentTime + idx * 0.12);
+                        osc.stop(this.ctx.currentTime + idx * 0.12 + 0.35);
+                    });
+                } catch(e) {}
+            }
+        };
+
+        const MAX_SELECTIONS = 4;
+        let selectedItems = [];
+        let currentLang = localStorage.getItem('cg_arcade_lang') || 'hi';
+        let currentTheme = localStorage.getItem('cg_arcade_theme') || 'dark';
+
+        // Official Chhattisgarh Citizen-Centric Schemes (Sewa Setu sewasetu.cgstate.gov.in)
+        const citizenSchemes = [
+            {
+                id: 'mahtari',
+                icon: '🌸',
+                nameEn: 'Mahtari Vandan Yojana',
+                nameHi: 'महतारी वंदन योजना',
+                benefitEn: '₹1,000/mo Direct DBT for Women',
+                benefitHi: '₹1,000 प्रतिमाह (₹12,000/वर्ष) महिला संबल'
+            },
+            {
+                id: 'kisan',
+                icon: '🌾',
+                nameEn: 'Krishak Unnati Yojana',
+                nameHi: 'कृषक उन्नति योजना',
+                benefitEn: '₹3,100/Qtl Paddy Support (21 Qtl/acre)',
+                benefitHi: '₹3,100/क्विंटल धान उपार्जन इनपुट सहायता'
+            },
+            {
+                id: 'ayushman',
+                icon: '🏥',
+                nameEn: 'Ayushman Arogya & Health Cover',
+                nameHi: 'आयुष्मान भारत व स्वास्थ्य सुरक्षा',
+                benefitEn: 'Up to ₹5 Lakh Cashless Treatment',
+                benefitHi: '₹5 लाख तक कैशलेस नि:शुल्क इलाज'
+            },
+            {
+                id: 'awas',
+                icon: '🏠',
+                nameEn: 'PM Awas Yojana (PMAY)',
+                nameHi: 'प्रधानमंत्री आवास योजना',
+                benefitEn: 'Pucca Concrete Permanent Home',
+                benefitHi: 'हर परिवार को पक्का सुरक्षित छत'
+            },
+            {
+                id: 'pension',
+                icon: '👵',
+                nameEn: 'Social Security Pension',
+                nameHi: 'सामाजिक सुरक्षा पेंशन योजना',
+                benefitEn: 'Monthly DBT for Seniors & Divyang',
+                benefitHi: 'वृद्धजन, विधवा व दिव्यांग मासिक सम्मान'
+            },
+            {
+                id: 'shiksha',
+                icon: '🎓',
+                nameEn: 'Swami Atmanand & Scholarships',
+                nameHi: 'स्वामी आत्मानंद शिक्षा व छात्रवृत्ति',
+                benefitEn: 'Free Smart Schools & Youth Merit Aid',
+                benefitHi: 'उत्कृष्ट अंग्रेजी स्कूल व मेधावी छात्रवृत्ति'
+            },
+            {
+                id: 'cert',
+                icon: '📜',
+                nameEn: 'Sewa Setu Digital Certificates',
+                nameHi: 'सेवा सेतु ई-प्रमाण पत्र सेवाएं',
+                benefitEn: 'Instant Domicile, Caste & Income e-Docs',
+                benefitHi: 'त्वरित डिजिटल निवास, जाति व आय प्रमाण पत्र'
+            }
+        ];
+
+        const I18N = {
+            en: {
+                homeBtn: "All Games Hub",
+                sewaLink: "Sewa Setu Portal",
+                hdrSub: "Directorate of Economics & Statistics • Sewa Setu",
+                hdrTitle: "Citizen Schemes Priority Planner",
+                themeLight: "☀️ Light",
+                themeDark: "🌙 Dark",
+                builtLabel: "Prioritized",
+                mapTitle: "📋 Your Top 4 Citizen Scheme Priorities",
+                selectionHeading: "🎯 Tap your Top 4 Citizen-Centric Schemes:",
+                sewaHint: "🔗 sewasetu.cgstate.gov.in • Toll Free 1076",
+                customWrite: "Suggest Other Scheme...",
+                customBenefit: "Custom Citizen Initiative",
+                modalHeading: "✏️ Suggest Your Own Scheme / Need",
+                modalPlaceholder: "e.g. Women Entrepreneur Subsidy",
+                btnCancel: "Cancel",
+                btnAdd: "Add Scheme ✨",
+                startTitle: "Prioritize Your Citizen Schemes!",
+                startDesc: "Which Government welfare schemes and digital citizen services matter most to you and your family? Tap your Top 4 priorities to build your personalized Welfare Blueprint powered by Sewa Setu!",
+                startInstruction: "Select your Top 4 flagship welfare schemes to generate your certified Blueprint!",
+                startBtn: "Start Prioritizing ▶",
+                endTitle: "🌟 Citizen Welfare Blueprint Ready!",
+                endSub: "Official planning blueprint with your Top 4 scheme priorities",
+                thankYou: "<span style='color:#38bdf8; font-weight:bold;'>✓ Recorded:</span> Priorities submitted to Directorate of Economics & Statistics & Sewa Setu.",
+                btnDownload: "Download Blueprint",
+                btnSewaText: "Visit Sewa Setu Portal",
+                imgBadge: "🌟 Sewa Setu Blueprint 2026",
+                planAgain: "Prioritize Again ↺",
+                backHub: "🏠 All Games Hub"
+            },
+            hi: {
+                homeBtn: "सभी खेल केंद्र",
+                sewaLink: "सेवा सेतु पोर्टल",
+                hdrSub: "आर्थिक एवं सांख्यिकी संचालनालय • सेवा सेतु",
+                hdrTitle: "नागरिक हितग्राही योजना चयन",
+                themeLight: "☀️ लाइट",
+                themeDark: "🌙 डार्क",
+                builtLabel: "चयनित",
+                mapTitle: "📋 आपकी शीर्ष 4 नागरिक योजना प्राथमिकताएं",
+                selectionHeading: "🎯 अपनी शीर्ष 4 नागरिक केंद्रित योजनाओं का चयन करें:",
+                sewaHint: "🔗 sewasetu.cgstate.gov.in • टोल-फ्री 1076",
+                customWrite: "अन्य योजना / मांग सुझाएं...",
+                customBenefit: "नागरिक विशेष सुझाव",
+                modalHeading: "✏️ अपनी योजना / मांग का सुझाव दें",
+                modalPlaceholder: "जैसे: महिला उद्यमिता ऋण, युवा कौशल",
+                btnCancel: "रद्द करें",
+                btnAdd: "शामिल करें ✨",
+                startTitle: "नागरिक हितग्राही योजना चयन!",
+                startDesc: "छत्तीसगढ़ शासन एवं सेवा सेतु पोर्टल की कौन सी जनकल्याणकारी योजनाएं आपके व आपके परिवार के लिए सर्वाधिक महत्वपूर्ण हैं? अपनी 4 प्रमुख प्राथमिकताओं का चयन कर अपना हितग्राही विजन ब्लूप्रिंट तैयार करें!",
+                startInstruction: "अपनी शीर्ष 4 योजनाओं का चयन करें और अपना सत्यापित ब्लूप्रिंट प्राप्त करें!",
+                startBtn: "योजना चयन शुरू करें ▶",
+                endTitle: "🌟 नागरिक हितग्राही ब्लूप्रिंट तैयार है!",
+                endSub: "आपकी 4 प्राथमिकताओं के आधार पर तैयार सेवा सेतु विजन ब्लूप्रिंट",
+                thankYou: "<span style='color:#38bdf8; font-weight:bold;'>✓ दर्ज किया गया:</span> आपकी प्राथमिकताएं आर्थिक एवं सांख्यिकी संचालनालय तथा सेवा सेतु हेतु सुरक्षित हैं।",
+                btnDownload: "ब्लूप्रिंट डाउनलोड करें",
+                btnSewaText: "सेवा सेतु पोर्टल पर जाएं (sewasetu.cgstate.gov.in)",
+                imgBadge: "🌟 सेवा सेतु विजन 2026",
+                planAgain: "पुनः योजना चुनें ↺",
+                backHub: "🏠 मुख्य खेल केंद्र"
+            }
+        };
+
+        const optionsGrid = document.getElementById('options-grid');
+        const countDisplay = document.getElementById('sel-count');
+        const hud = document.getElementById('hud');
+
+        function applyTheme(theme) {
+            currentTheme = theme;
+            document.documentElement.setAttribute('data-theme', theme);
+            try { localStorage.setItem('cg_arcade_theme', theme); } catch(e) {}
+            const themeBtn = document.getElementById('theme-btn');
+            const t = I18N[currentLang];
+            if (themeBtn) themeBtn.innerText = theme === 'dark' ? t.themeLight : t.themeDark;
+        }
+
+        function toggleTheme() {
+            AudioFX.playClick();
+            applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+        }
+
+        function applyLanguage(lang) {
+            currentLang = lang;
+            try { localStorage.setItem('cg_arcade_lang', lang); } catch(e) {}
+            const t = I18N[lang];
+            
+            document.getElementById('btn-home-text').innerText = t.homeBtn;
+            document.getElementById('sewa-link-text').innerText = t.sewaLink;
+            document.getElementById('hdr-sub').innerText = t.hdrSub;
+            document.getElementById('hdr-title').innerText = t.hdrTitle;
+            document.getElementById('built-label').innerText = t.builtLabel;
+            
+            // Map title with badge
+            document.getElementById('map-title-text').innerHTML = `
+                <span>${t.mapTitle}</span>
+                <span class="sewa-badge-live">Sewa Setu CG</span>
+            `;
+
+            document.getElementById('selection-heading-text').innerText = t.selectionHeading;
+            document.getElementById('sewa-hint-text').innerText = t.sewaHint;
+            document.getElementById('modal-heading').innerText = t.modalHeading;
+            document.getElementById('custom-input').placeholder = t.modalPlaceholder;
+            document.getElementById('btn-cancel-text').innerText = t.btnCancel;
+            document.getElementById('btn-add-text').innerText = t.btnAdd;
+            document.getElementById('start-title').innerText = t.startTitle;
+            document.getElementById('start-desc').innerText = t.startDesc;
+            document.getElementById('start-instruction').innerText = t.startInstruction;
+            document.getElementById('start-btn-text').innerText = t.startBtn;
+            document.getElementById('end-title').innerText = t.endTitle;
+            document.getElementById('end-sub').innerText = t.endSub;
+            document.getElementById('thankyou-box').innerHTML = t.thankYou;
+            document.getElementById('btn-plan-again-text').innerText = t.planAgain;
+            document.getElementById('btn-back-hub-text').innerText = t.backHub;
+            
+            const btnDownloadText = document.getElementById('btn-download-text');
+            if (btnDownloadText) btnDownloadText.innerText = t.btnDownload;
+            const btnSewaText = document.getElementById('btn-sewa-text');
+            if (btnSewaText) btnSewaText.innerText = t.btnSewaText;
+            const villageBadgeTag = document.getElementById('villageBadgeTag');
+            if (villageBadgeTag) villageBadgeTag.innerText = t.imgBadge;
+
+            document.getElementById('lang-btn').innerText = lang === 'en' ? '🌐 हिंदी' : '🌐 English';
+            const themeBtn = document.getElementById('theme-btn');
+            if (themeBtn) themeBtn.innerText = currentTheme === 'dark' ? t.themeLight : t.themeDark;
+
+            renderButtons();
+            if (selectedItems.length === MAX_SELECTIONS) {
+                generateVillageImage();
+            }
+        }
+
+        function toggleLanguage() {
+            AudioFX.playClick();
+            applyLanguage(currentLang === 'en' ? 'hi' : 'en');
+        }
+
+        function startGame() {
+            AudioFX.playClick();
+            document.getElementById('start-screen').style.display = 'none';
+            resetGame();
+        }
+
+        function resetGame() {
+            selectedItems = [];
+            countDisplay.innerText = "0";
+            hud.classList.remove('complete');
+            document.getElementById('end-screen').style.display = 'none';
+            
+            // Clear Plots
+            for(let i=0; i<MAX_SELECTIONS; i++) {
+                const plot = document.getElementById(`plot-${i}`);
+                plot.className = 'plot';
+                plot.innerHTML = `
+                    <div class="plot-priority-badge">#${i+1} Priority</div>
+                    <div class="plot-number">${i+1}</div>
+                `;
+            }
+            renderButtons();
+        }
+
+        function renderButtons() {
+            optionsGrid.innerHTML = '';
+            const t = I18N[currentLang];
+            
+            // Render the 7 standard citizen schemes
+            citizenSchemes.forEach(opt => {
+                const name = currentLang === 'hi' ? opt.nameHi : opt.nameEn;
+                const benefit = currentLang === 'hi' ? opt.benefitHi : opt.benefitEn;
+                const isSelected = selectedItems.some(item => item.id === opt.id);
+
+                const btn = document.createElement('div');
+                btn.className = `option-btn ${isSelected ? 'selected' : ''}`;
+                btn.id = `btn-${opt.id}`;
+                btn.onclick = () => selectOption(opt);
+                btn.innerHTML = `
+                    <div class="opt-icon">${opt.icon}</div>
+                    <div class="opt-info">
+                        <div class="opt-name">${name}</div>
+                        <div class="opt-benefit">${benefit}</div>
+                    </div>
+                `;
+                optionsGrid.appendChild(btn);
+            });
+
+            // Render the Custom Suggestion Button
+            const customBtn = document.createElement('div');
+            customBtn.className = 'option-btn custom-btn';
+            customBtn.onclick = openCustomModal;
+            customBtn.innerHTML = `
+                <div class="opt-icon">✏️</div>
+                <div class="opt-info">
+                    <div class="opt-name">${t.customWrite}</div>
+                    <div class="opt-benefit">${t.customBenefit}</div>
+                </div>
+            `;
+            optionsGrid.appendChild(customBtn);
+        }
+
+        // --- Custom Input Logic ---
+        function openCustomModal() {
+            AudioFX.playClick();
+            if (selectedItems.length >= MAX_SELECTIONS) return;
+            document.getElementById('custom-input').value = "";
+            document.getElementById('custom-modal').style.display = 'flex';
+            document.getElementById('custom-input').focus();
+        }
+
+        function closeCustomModal() {
+            AudioFX.playClick();
+            document.getElementById('custom-modal').style.display = 'none';
+        }
+
+        function submitCustomOption() {
+            const inputVal = document.getElementById('custom-input').value.trim();
+            if(inputVal === "") {
+                closeCustomModal();
+                return;
+            }
+
+            AudioFX.playPop();
+            const customId = 'custom-' + Date.now();
+            const customOpt = { 
+                id: customId, 
+                icon: '✨', 
+                nameEn: inputVal, 
+                nameHi: inputVal,
+                benefitEn: 'Custom Citizen Priority',
+                benefitHi: 'नागरिक विशेष प्राथमिकता'
+            };
+            
+            closeCustomModal();
+            selectOption(customOpt, true);
+        }
+
+        // --- Selection & Validation ---
+        function selectOption(opt, isCustom = false) {
+            if (selectedItems.length >= MAX_SELECTIONS) return;
+            if (!isCustom && selectedItems.some(item => item.id === opt.id)) return;
+
+            AudioFX.playPop();
+
+            // Update State
+            selectedItems.push(opt);
+            countDisplay.innerText = selectedItems.length;
+
+            // Visual feedback on button (if not custom)
+            if(!isCustom) {
+                const b = document.getElementById(`btn-${opt.id}`);
+                if (b) b.classList.add('selected');
+            }
+
+            // Animate into Plot
+            const plotIndex = selectedItems.length - 1;
+            const plot = document.getElementById(`plot-${plotIndex}`);
+            const displayName = currentLang === 'hi' ? opt.nameHi : opt.nameEn;
+            const displayBenefit = currentLang === 'hi' ? opt.benefitHi : opt.benefitEn;
+            
+            plot.innerHTML += `
+                <div class="plot-content">
+                    <div class="p-icon">${opt.icon}</div>
+                    <div class="p-name">${displayName}</div>
+                    <div class="p-benefit">${displayBenefit}</div>
+                </div>
+            `;
+            plot.classList.add('filled');
+
+            // Trigger Cinematic End Sequence if full
+            if (selectedItems.length === MAX_SELECTIONS) {
+                hud.classList.add('complete');
+                setTimeout(triggerCinematicEnding, 850);
+            }
+        }
+
+        // --- Welfare Blueprint Canvas Generator ---
+        const baseVillageImg = new Image();
+        baseVillageImg.src = 'assets/images/cg_dream_village_base.jpg';
+        let baseImgLoaded = false;
+        baseVillageImg.onload = () => { baseImgLoaded = true; };
+
+        // Strategic spatial anchors mapped to key landmarks in cg_dream_village_base.jpg (1280x720 canvas)
+        const SCHEME_COORDS = {
+            mahtari: { x: 380, y: 550, pinColor: '#ec4899', tag: 'Women DBT' },      // Village courtyard with women empowerment
+            kisan: { x: 880, y: 390, pinColor: '#10b981', tag: 'Paddy Agri' },        // Golden harvest paddy fields
+            ayushman: { x: 810, y: 530, pinColor: '#ef4444', tag: 'Health Care' },    // Community Health Centre
+            awas: { x: 620, y: 460, pinColor: '#3b82f6', tag: 'Pucca Home' },        // New concrete residential homes
+            pension: { x: 500, y: 620, pinColor: '#8b5cf6', tag: 'Social DBT' },      // Gram Panchayat facilitation centre
+            shiksha: { x: 230, y: 520, pinColor: '#f59e0b', tag: 'Smart School' },    // Swami Atmanand School campus
+            cert: { x: 420, y: 390, pinColor: '#06b6d4', tag: 'Sewa Setu e-Doc' },   // Sewa Setu Digital Kendra
+            custom: { x: 680, y: 590, pinColor: '#e11d48', tag: 'Citizen Voice' }    // Citizen Innovation Plaza
+        };
+
+        function generateVillageImage() {
+            const canvas = document.getElementById('villageCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            // 1. Draw base village illustration
+            if (baseVillageImg.complete && baseVillageImg.naturalWidth > 0) {
+                ctx.drawImage(baseVillageImg, 0, 0, 1280, 720);
+            } else {
+                const grad = ctx.createLinearGradient(0, 0, 0, 720);
+                grad.addColorStop(0, '#0284c7');
+                grad.addColorStop(0.4, '#15803d');
+                grad.addColorStop(1, '#064e3b');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, 1280, 720);
+            }
+
+            // 2. Draw Elegant Dark Top Ribbon Header
+            const topGrad = ctx.createLinearGradient(0, 0, 0, 92);
+            topGrad.addColorStop(0, 'rgba(10, 15, 30, 0.96)');
+            topGrad.addColorStop(1, 'rgba(10, 15, 30, 0.84)');
+            ctx.fillStyle = topGrad;
+            ctx.fillRect(0, 0, 1280, 92);
+
+            // Gold accent stripe under header
+            ctx.fillStyle = '#f59e0b';
+            ctx.fillRect(0, 89, 1280, 3);
+
+            // Header Left Text: Department & Sewa Setu Title
+            ctx.textAlign = 'left';
+            ctx.fillStyle = '#38bdf8';
+            ctx.font = 'bold 13px "Segoe UI", "Noto Sans Devanagari", sans-serif';
+            ctx.fillText('🏛️ GOVT OF CHHATTISGARH • DIRECTORATE OF ECONOMICS & STATISTICS • SEWA SETU', 32, 28);
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 24px "Segoe UI", "Noto Sans Devanagari", sans-serif';
+            const mainTitle = currentLang === 'hi'
+                ? '🌟 नागरिक हितग्राही विजन • जन-कल्याणकारी योजना ब्लूप्रिंट 2026'
+                : '🌟 CITIZEN WELFARE BLUEPRINT • TOP SCHEME PRIORITIES 2026';
+            ctx.fillText(mainTitle, 32, 62);
+
+            // Header Right: Sewa Setu Portal Badge
+            ctx.textAlign = 'right';
+            ctx.fillStyle = '#fef08a';
+            ctx.font = 'bold 15px "Segoe UI", sans-serif';
+            ctx.fillText('🌐 sewasetu.cgstate.gov.in', 1248, 38);
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '12px "Segoe UI", sans-serif';
+            ctx.fillText('Single Window Citizen Services Portal • Helpline: 1076', 1248, 62);
+
+            // 3. Draw the 4 chosen welfare schemes pins & callouts onto the blueprint
+            selectedItems.forEach((item, index) => {
+                let coord = SCHEME_COORDS[item.id];
+                if (!coord) {
+                    coord = { x: 380 + index * 140, y: 580, pinColor: '#ec4899', tag: 'Citizen Need' };
+                }
+                const displayName = currentLang === 'hi' ? item.nameHi : item.nameEn;
+                const benefit = currentLang === 'hi' ? item.benefitHi : item.benefitEn;
+
+                // Glowing outer halo
+                ctx.beginPath();
+                ctx.arc(coord.x, coord.y, 28, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.32)';
+                ctx.fill();
+
+                // Colored Pin Ring
+                ctx.beginPath();
+                ctx.arc(coord.x, coord.y, 18, 0, Math.PI * 2);
+                ctx.fillStyle = coord.pinColor;
+                ctx.fill();
+                ctx.lineWidth = 3;
+                ctx.strokeStyle = '#ffffff';
+                ctx.stroke();
+
+                // Pin center core
+                ctx.beginPath();
+                ctx.arc(coord.x, coord.y, 6, 0, Math.PI * 2);
+                ctx.fillStyle = '#ffffff';
+                ctx.fill();
+
+                // Vertical indicator stem
+                ctx.beginPath();
+                ctx.moveTo(coord.x, coord.y - 18);
+                ctx.lineTo(coord.x, coord.y - 42);
+                ctx.lineWidth = 3;
+                ctx.strokeStyle = '#ffffff';
+                ctx.stroke();
+
+                // Speech Bubble Callout
+                const badgeTitle = `#${index + 1} ${item.icon} ${displayName}`;
+                ctx.font = 'bold 13.5px "Segoe UI", "Noto Sans Devanagari", sans-serif';
+                const textWidth = ctx.measureText(badgeTitle).width;
+                const boxWidth = Math.max(textWidth + 28, 180);
+                const boxHeight = 46;
+                let boxX = coord.x - boxWidth / 2;
+                let boxY = coord.y - 42 - boxHeight;
+
+                // Keep inside canvas bounds
+                if (boxX < 15) boxX = 15;
+                if (boxX + boxWidth > 1265) boxX = 1265 - boxWidth;
+                if (boxY < 100) boxY = coord.y + 25; // Flip below if near top
+
+                ctx.save();
+                ctx.shadowColor = 'rgba(0,0,0,0.7)';
+                ctx.shadowBlur = 10;
+                ctx.shadowOffsetY = 4;
+                ctx.fillStyle = 'rgba(15, 23, 42, 0.94)';
+                ctx.strokeStyle = coord.pinColor;
+                ctx.lineWidth = 2.5;
+
+                // Rounded Rect Callout Box
+                const radius = 10;
+                ctx.beginPath();
+                ctx.moveTo(boxX + radius, boxY);
+                ctx.lineTo(boxX + boxWidth - radius, boxY);
+                ctx.quadraticCurveTo(boxX + boxWidth, boxY, boxX + boxWidth, boxY + radius);
+                ctx.lineTo(boxX + boxWidth, boxY + boxHeight - radius);
+                ctx.quadraticCurveTo(boxX + boxWidth, boxY + boxHeight, boxX + boxWidth - radius, boxY + boxHeight);
+                ctx.lineTo(boxX + radius, boxY + boxHeight);
+                ctx.quadraticCurveTo(boxX, boxY + boxHeight, boxX, boxY + boxHeight - radius);
+                ctx.lineTo(boxX, boxY + radius);
+                ctx.quadraticCurveTo(boxX, boxY, boxX + radius, boxY);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+                ctx.restore();
+
+                // Scheme Title inside badge
+                ctx.textAlign = 'center';
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 13.5px "Segoe UI", "Noto Sans Devanagari", sans-serif';
+                ctx.fillText(badgeTitle, boxX + boxWidth / 2, boxY + 20);
+
+                // Scheme Benefit subline
+                ctx.fillStyle = '#38bdf8';
+                ctx.font = '11px "Segoe UI", "Noto Sans Devanagari", sans-serif';
+                ctx.fillText(benefit, boxX + boxWidth / 2, boxY + 37);
+            });
+
+            // 4. Draw Bottom Footer Ribbon
+            const botGrad = ctx.createLinearGradient(0, 645, 0, 720);
+            botGrad.addColorStop(0, 'rgba(10, 15, 30, 0.9)');
+            botGrad.addColorStop(1, 'rgba(10, 15, 30, 0.98)');
+            ctx.fillStyle = botGrad;
+            ctx.fillRect(0, 645, 1280, 75);
+
+            // Emerald accent stripe
+            ctx.fillStyle = '#10b981';
+            ctx.fillRect(0, 645, 1280, 2);
+
+            // Footer Left: Mini summary chips
+            ctx.textAlign = 'left';
+            ctx.fillStyle = '#fbbf24';
+            ctx.font = 'bold 12px "Segoe UI", sans-serif';
+            ctx.fillText(currentLang === 'hi' ? 'चयनित योजनाएं (SELECTED SCHEMES):' : 'SELECTED CITIZEN SCHEMES:', 30, 668);
+
+            let chipX = 30;
+            selectedItems.forEach((item) => {
+                const name = currentLang === 'hi' ? item.nameHi : item.nameEn;
+                const chipText = `${item.icon} ${name}`;
+                ctx.font = '11.5px "Segoe UI", "Noto Sans Devanagari", sans-serif';
+                const w = ctx.measureText(chipText).width + 16;
+
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.12)';
+                ctx.fillRect(chipX, 678, w, 24);
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+                ctx.strokeRect(chipX, 678, w, 24);
+
+                ctx.fillStyle = '#ffffff';
+                ctx.fillText(chipText, chipX + 8, 694);
+                chipX += w + 8;
+            });
+
+            // Footer Right: Verified Seal & Portal Notice
+            ctx.textAlign = 'right';
+            ctx.fillStyle = '#10b981';
+            ctx.font = 'bold 13px "Segoe UI", sans-serif';
+            ctx.fillText('✓ CERTIFIED CITIZEN PRIORITY BLUEPRINT • SEWA SETU', 1250, 672);
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '11.5px "Segoe UI", sans-serif';
+            ctx.fillText('Direct Benefit Transfer & Public Services • Nava Raipur Atal Nagar', 1250, 694);
+
+            // 5. Export to Image Element
+            try {
+                const dataUrl = canvas.toDataURL('image/jpeg', 0.94);
+                const generatedImg = document.getElementById('generatedVillageImg');
+                if (generatedImg) {
+                    generatedImg.src = dataUrl;
+                }
+            } catch(e) {
+                console.warn('Canvas export note:', e);
+            }
+        }
+
+        function downloadVillageImage() {
+            AudioFX.playClick();
+            const generatedImg = document.getElementById('generatedVillageImg');
+            if (!generatedImg || !generatedImg.src) return;
+
+            const link = document.createElement('a');
+            link.download = `SewaSetu_Citizen_Schemes_Blueprint_${Date.now()}.jpg`;
+            link.href = generatedImg.src;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // --- The Reveal & Generation Sequence ---
+        function triggerCinematicEnding() {
+            AudioFX.playFanfare();
+
+            // 1. Generate the custom welfare illustration with the 4 chosen schemes
+            generateVillageImage();
+
+            // 2. Render 4 final summary pills (sleek, single-line, uncluttered)
+            const finalList = document.getElementById('final-list');
+            finalList.innerHTML = '';
+
+            selectedItems.forEach((item, index) => {
+                const animDelay = index * 0.08;
+                const displayName = currentLang === 'hi' ? item.nameHi : item.nameEn;
+                finalList.innerHTML += `
+                    <div class="final-card" style="animation-delay: ${animDelay}s">
+                        <span class="fc-icon">${item.icon}</span>
+                        <span class="fc-name">${displayName}</span>
+                    </div>
+                `;
+            });
+
+            // 3. Fade in the grand cinematic screen
+            const endScreen = document.getElementById('end-screen');
+            endScreen.style.opacity = 0;
+            endScreen.style.display = 'flex';
+
+            let opacity = 0;
+            let fade = setInterval(() => {
+                if (opacity >= 1) clearInterval(fade);
+                endScreen.style.opacity = opacity;
+                opacity += 0.05;
+            }, 25);
+        }
+
+        // --- Kiosk Idle Auto-Reset ---
+        let idleTime = 0;
+        setInterval(() => {
+            idleTime++;
+            if (idleTime >= 45) { // Reset after 45 seconds of no touching
+                document.getElementById('custom-modal').style.display = 'none';
+                document.getElementById('start-screen').style.display = 'flex';
+                idleTime = 0;
+            }
+        }, 1000);
+
+        function resetTimer() { idleTime = 0; }
+        window.onload = () => {
+            resetTimer();
+            applyTheme(currentTheme);
+            applyLanguage(currentLang);
+        };
+        window.onmousemove = resetTimer;
+        window.ontouchstart = resetTimer;
+        window.onclick = resetTimer;
+        window.onkeydown = resetTimer;
+    </script>
+</body>
+</html>

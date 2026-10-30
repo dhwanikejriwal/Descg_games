@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DES Chhattisgarh - Rajyotsav 2026 Arcade Hub</title>
+    <meta name="description" content="Directorate of Economics & Statistics Chhattisgarh - Chhattisgarh Rajyotsav 2026 Interactive Digital Pavilion">
+    <link rel="stylesheet" href="css/style.css?v=3.0">
+</head>
+<body>
+
+    <main class="container">
+        <!-- TOP GLOBAL APP NAVIGATION -->
+        <nav class="top-nav">
+            <div class="nav-brand">
+                <span>🏛️</span> <span id="nav-brand-text" data-i18n="brand">DES Chhattisgarh • Economy Hub</span>
+            </div>
+            
+            <div class="nav-center-tabs">
+                <button id="tab-hub" class="nav-tab active" onclick="window.switchAppScreen('hub')" data-i18n="navHub">
+                    🎪 Home
+                </button>
+                <button id="tab-intro" class="nav-tab" onclick="window.switchAppScreen('intro')" data-i18n="navIntro">
+                    💡 GDP
+                </button>
+                <a href="spin_wheel.html" id="tab-wheel" class="nav-tab" data-i18n="navSpinWheel" style="text-decoration:none;">
+                    🎡 Spin the Wheel
+                </a>
+                <a href="vital_data_cycle.html" id="tab-vital" class="nav-tab" data-i18n="navVital" style="text-decoration:none;">
+                    📋 जन्म-मृत्यु पंजीयन
+                </a>
+                <a href="priority_builder.html" id="tab-builder" class="nav-tab" data-i18n="navBuilder" style="text-decoration:none;">
+                    📋 Citizen Schemes
+                </a>
+            </div>
+
+            <!-- Theme & Language Controls -->
+            <div class="nav-controls">
+                <button id="theme-toggle-btn" class="control-pill-btn" onclick="window.toggleAppTheme()" data-i18n="themeBtn" title="Toggle Light/Dark Theme">
+                    ☀️ Light
+                </button>
+                <button id="lang-toggle-btn" class="control-pill-btn" onclick="window.toggleAppLanguage()" data-i18n="langBtn" title="हिंदी / English">
+                    🌐 हिंदी
+                </button>
+            </div>
+        </nav>
+
+        <!-- SCREEN: RAJYOTSAV 2026 CENTRAL GAMES HUB -->
+        <section id="hub-screen" class="rajyotsav-hub-screen">
+            <!-- Decorative Festive Sky & Floating Pixel Elements -->
+            <div class="sky-elements-layer">
+                <div class="pixel-cloud cloud-1"></div>
+                <div class="pixel-cloud cloud-2"></div>
+                <div class="pixel-cloud cloud-3"></div>
+                <div class="pixel-cloud cloud-4"></div>
+                <div class="sparkle-cross sp-1">+</div>
+                <div class="sparkle-cross sp-2">+</div>
+                <div class="sparkle-cross sp-3">+</div>
+                <div class="sparkle-cross sp-4">+</div>
+                <div class="sparkle-cross sp-5">+</div>
+                <div class="sparkle-star st-1">✦</div>
+                <div class="sparkle-star st-2">✦</div>
+                <div class="pixel-dot dot-1"></div>
+                <div class="pixel-dot dot-2"></div>
+                <div class="pixel-dot dot-3"></div>
+                <div class="pixel-dot dot-4"></div>
+            </div>
+
+
+
+            <!-- Central Title with Diamond Lines -->
+            <div class="raj-title-wrap">
+                <div class="diamond-divider top">
+                    <span class="d-line"></span>
+                    <span class="d-star">✦</span>
+                    <span class="d-line"></span>
+                </div>
+                <h1 class="raj-main-title" data-i18n="rajTitle">छत्तीसगढ़ राज्योत्सव 2026</h1>
+                <div class="diamond-divider btm">
+                    <span class="d-line"></span>
+                    <span class="d-star">✦</span>
+                    <span class="d-line"></span>
+                </div>
+            </div>
+
+            <!-- 4 Cards Only in Clean 2x2 Grid: GDP, Spin Wheel, Vital Awareness, Dream Village -->
+            <div class="raj-cards-grid">
+                <!-- Card 1: GDP (WHAT IS GDP, BRIEFING & ARCADE) -->
+                <div class="arcade-card card-yellow" onclick="window.switchAppScreen('intro')">
+                    <div class="card-icon-area">
+                        <svg class="card-icon-svg" viewBox="0 0 100 90">
+                            <!-- Background Glowing Vault / Coin Base -->
+                            <circle cx="50" cy="45" r="32" fill="#fef08a" stroke="#eab308" stroke-width="3"/>
+                            <!-- Rupee Coin & Rising Chart Graphic -->
+                            <circle cx="50" cy="45" r="26" fill="#f59e0b" stroke="#ca8a04" stroke-width="2"/>
+                            <path d="M36 34 h26 M36 42 h20 M44 34 v24 M44 42 Q 56 42 56 50 Q 56 58 44 58 L 58 72" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <!-- Mini Upward Trend Arrow -->
+                            <polygon points="68,26 76,26 76,34" fill="#10b981"/>
+                            <line x1="56" y1="40" x2="76" y2="26" stroke="#10b981" stroke-width="3" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="card-text-area">
+                        <h2 class="card-name" data-i18n="rajCard1Name">GDP (जीडीपी)</h2>
+                        <p class="card-sub" data-i18n="rajCard1Sub">जीडीपी क्या है, राज्य की कुल कमाई और सेक्टर खेल</p>
+                    </div>
+                    <div class="card-arrow-area">
+                        <span class="arcade-arrow">›</span>
+                    </div>
+                </div>
+
+                <!-- Card 2: SPIN THE WHEEL (AANKDA CHAKRA) -->
+                <a href="spin_wheel.html" class="arcade-card card-green">
+                    <div class="card-icon-area">
+                        <svg class="card-icon-svg" viewBox="0 0 100 90">
+                            <!-- Glowing Halo -->
+                            <circle cx="50" cy="46" r="34" fill="#10b981" opacity="0.25" filter="blur(6px)"/>
+                            <!-- Outer Golden Wheel Rim -->
+                            <circle cx="50" cy="46" r="32" fill="#065f46" stroke="#f59e0b" stroke-width="3.5"/>
+                            <circle cx="50" cy="46" r="28" fill="#10b981"/>
+                            <!-- Colorful Wheel Wedges -->
+                            <g transform="translate(50, 46)">
+                                <path d="M0 0 L 0 -28 A 28 28 0 0 1 20 -20 Z" fill="#ef4444"/>
+                                <path d="M0 0 L 20 -20 A 28 28 0 0 1 28 0 Z" fill="#f59e0b"/>
+                                <path d="M0 0 L 28 0 A 28 28 0 0 1 20 20 Z" fill="#3b82f6"/>
+                                <path d="M0 0 L 20 20 A 28 28 0 0 1 0 28 Z" fill="#8b5cf6"/>
+                                <path d="M0 0 L 0 28 A 28 28 0 0 1 -20 20 Z" fill="#ec4899"/>
+                                <path d="M0 0 L -20 20 A 28 28 0 0 1 -28 0 Z" fill="#06b6d4"/>
+                                <path d="M0 0 L -28 0 A 28 28 0 0 1 -20 -20 Z" fill="#eab308"/>
+                                <path d="M0 0 L -20 -20 A 28 28 0 0 1 0 -28 Z" fill="#10b981"/>
+                            </g>
+                            <!-- Center Hub -->
+                            <circle cx="50" cy="46" r="8" fill="#fef08a" stroke="#ca8a04" stroke-width="2"/>
+                            <circle cx="50" cy="46" r="4" fill="#b45309"/>
+                            <!-- Top Pointer Needle -->
+                            <polygon points="50,14 45,22 55,22" fill="#fef08a" stroke="#78350f" stroke-width="1.5"/>
+                            <!-- Sparkles -->
+                            <text x="76" y="24" font-size="12" fill="#f59e0b">✦</text>
+                            <text x="18" y="24" font-size="10" fill="#fef08a">✦</text>
+                        </svg>
+                    </div>
+                    <div class="card-text-area">
+                        <h2 class="card-name" data-i18n="rajCard2Name">स्पिन द व्हील (आंकड़ा चक्र)</h2>
+                        <p class="card-sub" data-i18n="rajCard2Sub">DES CG व राज्य नीति आयोग: 10 आधिकारिक संकेतक, विजन 2047 व क्विज</p>
+                    </div>
+                    <div class="card-arrow-area">
+                        <span class="arcade-arrow">›</span>
+                    </div>
+                </a>
+
+                <!-- Card 3: VITAL AWARENESS (THE CYCLE OF VITAL DATA PPT) -->
+                <a href="vital_data_cycle.html" class="arcade-card card-teal">
+                    <div class="card-icon-area">
+                        <svg class="card-icon-svg" viewBox="0 0 100 90">
+                            <!-- Glowing Base -->
+                            <circle cx="50" cy="45" r="32" fill="#0f766e" opacity="0.3"/>
+                            <circle cx="50" cy="45" r="28" fill="#134e4a" stroke="#14b8a6" stroke-width="2.5"/>
+                            <!-- 4 Circular Cycle Arrows in Cyan -->
+                            <path d="M 50 25 A 20 20 0 0 1 70 45" stroke="#38bdf8" stroke-width="5" stroke-linecap="round" fill="none"/>
+                            <polygon points="70,39 76,46 66,48" fill="#38bdf8"/>
+                            <path d="M 70 45 A 20 20 0 0 1 50 65" stroke="#38bdf8" stroke-width="5" stroke-linecap="round" fill="none"/>
+                            <polygon points="56,65 49,71 47,61" fill="#38bdf8"/>
+                            <path d="M 50 65 A 20 20 0 0 1 30 45" stroke="#38bdf8" stroke-width="5" stroke-linecap="round" fill="none"/>
+                            <polygon points="30,51 24,44 34,42" fill="#38bdf8"/>
+                            <path d="M 30 45 A 20 20 0 0 1 50 25" stroke="#38bdf8" stroke-width="5" stroke-linecap="round" fill="none"/>
+                            <polygon points="44,25 51,19 53,29" fill="#38bdf8"/>
+                            <!-- Center Stamp -->
+                            <circle cx="50" cy="45" r="7" fill="#f0fdfa"/>
+                            <text x="50" y="48.5" font-size="8" font-family="'Outfit', sans-serif" font-weight="900" fill="#0f766e" text-anchor="middle">21</text>
+                        </svg>
+                    </div>
+                    <div class="card-text-area">
+                        <h2 class="card-name" data-i18n="rajCard3Name">जन्म-मृत्यु पंजीयन जागरूकता</h2>
+                        <p class="card-sub" data-i18n="rajCard3Sub">21 दिनों में निःशुल्क पंजीयन, समय चक्र और नागरिक अधिकार</p>
+                    </div>
+                    <div class="card-arrow-area">
+                        <span class="arcade-arrow">›</span>
+                    </div>
+                </a>
+
+                <!-- Card 4: CITIZEN SCHEMES (SEWA SETU) -->
+                <a href="priority_builder.html" class="arcade-card card-blue">
+                    <div class="card-icon-area">
+                        <svg class="card-icon-svg" viewBox="0 0 100 90">
+                            <!-- Map Silhouette of Chhattisgarh -->
+                            <path d="M38 18 Q 54 14 62 20 Q 68 28 62 38 Q 66 48 64 58 Q 68 68 58 76 Q 48 82 44 76 Q 40 68 44 58 Q 36 50 38 38 Q 32 26 38 18 Z" 
+                                  fill="#4ade80" stroke="#15803d" stroke-width="3" filter="drop-shadow(0 4px 6px rgba(0,0,0,0.15))"/>
+                            <!-- Dashed Route -->
+                            <path d="M42 26 Q 54 36 48 48 T 56 68" fill="none" stroke="#0284c7" stroke-width="3" stroke-dasharray="4 3" stroke-linecap="round"/>
+                            <!-- Red Location Pin -->
+                            <g transform="translate(50, 42)">
+                                <ellipse cx="0" cy="18" rx="6" ry="2.5" fill="rgba(0,0,0,0.3)"/>
+                                <path d="M0 18 C -1 15 -10 6 -10 -2 C -10 -8 -6 -13 0 -13 C 6 -13 10 -8 10 -2 C 10 6 1 15 0 18 Z" 
+                                      fill="#ef4444" stroke="#991b1b" stroke-width="2"/>
+                                <circle cx="0" cy="-2" r="4" fill="#ffffff"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="card-text-area">
+                        <h2 class="card-name" data-i18n="rajCard4Name">नागरिक योजनाएं (सेवा सेतु)</h2>
+                        <p class="card-sub" data-i18n="rajCard4Sub">शीर्ष 4 जनकल्याणकारी योजनाएं चुनें और सेवा सेतु विजन कार्ड बनाएं</p>
+                    </div>
+                    <div class="card-arrow-area">
+                        <span class="arcade-arrow">›</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- SCREEN 0: WHAT IS GDP? (CLEAN, FOCUSED, UNCLUTTERED) -->
+        <section id="intro-screen" style="display: none;">
+            <div class="intro-centered-container">
+                <!-- Big Centered Title -->
+                <div class="intro-badge" data-i18n="introBadge">
+                    🏛️ Directorate of Economics & Statistics • CG Economic Survey 2025–26
+                </div>
+                <h1 class="intro-headline" data-i18n="introHeadline">What is GDP?</h1>
+                
+                <!-- Definition -->
+                <p class="intro-lead" data-i18n="introLead">
+                    <b>Gross Domestic Product (GDP)</b> — or <b>GSDP</b> for our state — is the <b>total monetary value of all final goods and services</b> produced within Chhattisgarh in a single financial year. It is the master scorecard of our state's economic size, wealth, and progress.
+                </p>
+
+                <!-- How It's Calculated: Clean, Visual Formula Card -->
+                <div class="intro-calc-card">
+                    <div class="calc-label" data-i18n="calcLabel">How GSDP is Calculated:</div>
+                    <div class="calc-formula">
+                        <div class="formula-item">
+                            <span class="formula-icon">🌾🏭</span>
+                            <span class="formula-title" data-i18n="formulaGoods">All Goods Produced</span>
+                            <span class="formula-sub" data-i18n="formulaGoodsSub">Agriculture, Minerals, Bhilai Steel, Power & Manufacturing</span>
+                        </div>
+                        <div class="formula-plus">+</div>
+                        <div class="formula-item">
+                            <span class="formula-icon">💻🏥</span>
+                            <span class="formula-title" data-i18n="formulaServices">Every Service Provided</span>
+                            <span class="formula-sub" data-i18n="formulaServicesSub">Healthcare, Transport, IT, Banking & Education</span>
+                        </div>
+                        <div class="formula-equals">=</div>
+                        <div class="formula-item highlight">
+                            <span class="formula-icon">🏛️</span>
+                            <span class="formula-title" data-i18n="formulaTotal">Total State GSDP (2025–26)</span>
+                            <span class="formula-val" data-i18n="formulaTotalVal">₹3,58,293 Cr (Real) • ₹6.31 Lakh Cr (Nominal)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1-Line Basic Info -->
+                <p class="intro-sectors-hint" data-i18n="sectorsHint">
+                    Every rupee generated in Chhattisgarh comes from 3 core sectors: <b>🌾 Primary (17.8%)</b>, <b>🏭 Secondary (49.3%)</b>, and <b>💻 Tertiary (32.9%)</b>.
+                </p>
+
+                <!-- Navigation Action Buttons -->
+                <div class="intro-cta-row">
+                    <button id="to-dashboard-btn" class="btn btn-primary" onclick="window.switchAppScreen('dashboard')" data-i18n="btnToDashboard">
+                        Explore State Economy Briefing →
+                    </button>
+                    <button id="jump-arcade-btn" class="btn btn-secondary" onclick="window.switchAppScreen('game')" data-i18n="btnToArcade">
+                        Play Sector Sorting Game 🎮
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 1: DASHBOARD UI (SECTOR BREAKDOWN) -->
+        <section id="dashboard-screen" style="display: none;">
+            <header class="header">
+                <div>
+                    <div id="dashboard-dept-badge" class="dept-badge" data-i18n="deptBadge">
+                        Directorate of Economics & Statistics • Chhattisgarh (Survey 2025–26)
+                    </div>
+                    <h1 id="dashboard-title" data-i18n="dashboardTitle">State Economy Briefing & Sector Breakdown</h1>
+                </div>
+                <div id="dashboard-target-badge" class="target-badge" data-i18n="targetBadge">
+                    🎯 Real Growth: 8.11% | Nominal: 11.57%
+                </div>
+            </header>
+
+            <!-- Key Indicators & Visualization -->
+            <div class="main-grid">
+                <!-- Donut / Pie Chart Card -->
+                <div class="card chart-container">
+                    <div class="pie-chart-wrap">
+                        <div class="pie-chart" role="img" aria-label="GSDP Sector Share: Primary 17.8%, Secondary 49.3%, Tertiary 32.9%"></div>
+                        <div class="pie-chart-hole">
+                            <span id="donut-hole-title" class="hole-title" data-i18n="donutHoleTitle">Real Growth</span>
+                            <span class="hole-value" data-i18n="donutHoleVal">8.11%</span>
+                        </div>
+                    </div>
+                    <div class="legend">
+                        <div class="legend-item"><span class="legend-box pri"></span> <span id="legend-pri" data-i18n="legendPri">Primary (17.8%)</span></div>
+                        <div class="legend-item"><span class="legend-box sec"></span> <span id="legend-sec" data-i18n="legendSec">Secondary (49.3%)</span></div>
+                        <div class="legend-item"><span class="legend-box ter"></span> <span id="legend-ter" data-i18n="legendTer">Tertiary (32.9%)</span></div>
+                    </div>
+                </div>
+
+                <!-- Real GSDP Card -->
+                <div class="card">
+                    <div id="stat-nominal-label" class="stat-label" data-i18n="cardRealTitle">Real GSDP (Constant 2011-12)</div>
+                    <div id="stat-nominal-val" class="stat-value" data-i18n="cardRealVal">₹3,58,293<br><span style="font-size: 1.2rem; font-weight: 500; color: var(--text-muted);">Crore (8.11% Growth)</span></div>
+                    <div id="stat-baseline-label" class="stat-highlight" style="color: #38bdf8;" data-i18n="cardRealSub">
+                        Baseline Physical Production
+                    </div>
+                </div>
+
+                <!-- Nominal GSDP Card -->
+                <div class="card">
+                    <div id="stat-growth-label" class="stat-label" data-i18n="cardNominalTitle">Nominal GSDP (Current Prices)</div>
+                    <div class="stat-value" style="color: var(--primary-color);" data-i18n="cardNominalVal">₹6.31<br><span style="font-size: 1.2rem; font-weight: 500; color: var(--text-muted);">Lakh Cr (11.57% Growth)</span></div>
+                    <div id="stat-indicator-label" class="stat-highlight" style="color: var(--tertiary-color);" data-i18n="cardNominalSub">
+                        Market Value at Today's Prices
+                    </div>
+                </div>
+            </div>
+
+            <!-- The 3 State Economic Sectors -->
+            <div class="sector-cards">
+                <article class="card s-card pri">
+                    <h3 id="s-card-pri-title" data-i18n="secPriTitle">🌾 Primary Sector (17.8%)</h3>
+                    <p id="s-card-pri-desc" data-i18n="secPriDesc">Natural wealth extraction: Agriculture, Rice farming, Coal & Iron mining, Bastar Forest produce, and Livestock.</p>
+                </article>
+                <article class="card s-card sec">
+                    <h3 id="s-card-sec-title" data-i18n="secSecTitle">🏭 Secondary Sector (49.3%)</h3>
+                    <p id="s-card-sec-desc" data-i18n="secSecDesc">Industrial engine: Bhilai Steel Plant, Thermal Power Generation, Cement units, and Capital Infrastructure.</p>
+                </article>
+                <article class="card s-card ter">
+                    <h3 id="s-card-ter-title" data-i18n="secTerTitle">💻 Tertiary Sector (32.9%)</h3>
+                    <p id="s-card-ter-desc" data-i18n="secTerDesc">Services & Knowledge economy: IT Hubs, Chitrakote Eco-tourism, Rural FinTech, Healthcare, and Logistics.</p>
+                </article>
+            </div>
+
+            <!-- Action Bar -->
+            <div class="action-row">
+                <button id="launch-arcade-btn" class="btn btn-primary" onclick="window.switchAppScreen('game')" data-i18n="btnLaunchArcade">
+                    Launch Sector Sorting Arcade 🎮
+                </button>
+            </div>
+        </section>
+
+        <!-- SCREEN 2: ARCADE GAME UI -->
+        <section id="game-screen" style="display: none;">
+            <div class="combo-gauge-wrapper">
+                <div id="combo-fill" class="combo-gauge-fill"></div>
+            </div>
+
+            <header class="game-hud">
+                <div class="hud-left">
+                    <button id="return-dashboard-btn" class="btn btn-secondary" onclick="window.switchAppScreen('dashboard')" data-i18n="btnBriefing">
+                        ← Briefing
+                    </button>
+                    <!-- Lives System -->
+                    <div id="lives-container" class="lives-container" title="Remaining Lives">
+                        <span class="heart active">❤️</span>
+                        <span class="heart active">❤️</span>
+                        <span class="heart active">❤️</span>
+                    </div>
+                    <div>
+                        <div id="hud-instructions-text" class="hud-instructions" data-i18n="hudInstruct">Catch falling economic activities into the correct sector bin!</div>
+                        <div id="hud-controls-text" class="hud-controls-hint" data-i18n="hudControls">Controls: Move Mouse / Drag Touch / Keys [A, S, D] or [←, ↓, →]</div>
+                    </div>
+                </div>
+                <div class="hud-stats">
+                    <div class="high-score-board" title="All-Time High Score">
+                        <span id="high-score-label" data-i18n="highScoreLabel">🏆 Best:</span> <span id="high-score">0</span>
+                    </div>
+                    <span id="streak" class="streak-badge" title="Combo Multiplier">0x</span>
+                    <div class="score-board"><span id="score-label-text" data-i18n="scoreLabel">Score:</span> <span id="score">0</span></div>
+                    <button id="sound-toggle-btn" class="icon-btn" title="Toggle Sound">🔊</button>
+                </div>
+            </header>
+            
+            <!-- Dynamic Falling Items Area with Canvas Particles -->
+            <div class="game-area" id="game-area"></div>
+
+            <!-- Bins for Catching -->
+            <footer class="bins-container">
+                <div class="bin pri" id="bin-pri">
+                    <div id="bin-pri-title" data-i18n="binPriTitle">🌾 Primary</div>
+                    <div id="bin-pri-sub" class="bin-sub" data-i18n="binPriSub">17.8% • Agri / Mining [A / ←]</div>
+                </div>
+                <div class="bin sec" id="bin-sec">
+                    <div id="bin-sec-title" data-i18n="binSecTitle">🏭 Secondary</div>
+                    <div id="bin-sec-sub" class="bin-sub" data-i18n="binSecSub">49.3% • Industry / Power [S / ↓]</div>
+                </div>
+                <div class="bin ter" id="bin-ter">
+                    <div id="bin-ter-title" data-i18n="binTerTitle">💻 Tertiary</div>
+                    <div id="bin-ter-sub" class="bin-sub" data-i18n="binTerSub">32.9% • Services / IT [D / →]</div>
+                </div>
+            </footer>
+
+            <!-- Game Over Overlay with Rank Medal -->
+            <div id="game-over-overlay">
+                <div class="overlay-modal">
+                    <h2 id="game-over-title" data-i18n="gameOverTitle">Arcade Complete!</h2>
+                    <p id="game-over-sub" class="score-summary" data-i18n="gameOverSub">Your final economic planning score:</p>
+                    <div class="score-big" id="final-score">0</div>
+                    
+                    <!-- Dynamic Rank Badge Box -->
+                    <div id="rank-badge" class="rank-badge-box"></div>
+
+                    <div class="modal-actions">
+                        <button id="play-again-btn" class="btn btn-primary" onclick="if(window.arcadeInstance) window.arcadeInstance.start()" data-i18n="btnPlayAgain">
+                            Play Again 🔄
+                        </button>
+                        <button id="modal-dashboard-btn" onclick="window.switchAppScreen('dashboard')" class="btn btn-secondary" data-i18n="btnDashboard">
+                            Dashboard
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modular Scripts with Universal Support -->
+    <script src="js/data.js?v=3.0"></script>
+    <script src="js/sound.js?v=3.0"></script>
+    <script src="js/arcade.js?v=3.0"></script>
+    <script src="js/app.js?v=3.0"></script>
+</body>
+</html>

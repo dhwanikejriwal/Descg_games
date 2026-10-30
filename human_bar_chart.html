@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DES Chhattisgarh - Human Bar Chart (Interactive Statistics)</title>
+    <meta name="description" content="Directorate of Economics & Statistics Chhattisgarh - Participatory Human Bar Chart Kiosk Game">
+    <style>
+        :root {
+            --bg-dark: #0a0d14;
+            --panel-bg: rgba(18, 24, 38, 0.85);
+            --primary: #38bdf8;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --purple: #c084fc;
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --card-hover: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="light"] {
+            --bg-dark: #f1f5f9;
+            --panel-bg: rgba(255, 255, 255, 0.95);
+            --primary: #0284c7;
+            --accent: #d97706;
+            --success: #059669;
+            --purple: #9333ea;
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --card-hover: rgba(0, 0, 0, 0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; user-select: none; }
+
+        body {
+            background: radial-gradient(ellipse 90% 60% at 50% -10%, #1a2238 0%, #0d121f 55%, var(--bg-dark) 100%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            transition: background 0.3s;
+            padding: 16px;
+        }
+
+        [data-theme="light"] body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .kiosk-container {
+            width: 100%;
+            max-width: 1160px;
+            min-height: 90vh;
+            background: var(--panel-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 0 20px rgba(56, 189, 248, 0.05);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* --- Header --- */
+        .header {
+            padding: 16px 36px;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.18);
+            border-radius: 24px 24px 0 0;
+            z-index: 10;
+        }
+
+        [data-theme="light"] .header {
+            background: rgba(255,255,255,0.7);
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .home-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+
+        .home-btn:hover {
+            background: var(--primary);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .header-title-box h1 { font-size: 1.45rem; font-weight: bold; color: var(--text-main); }
+        .header-title-box p { color: var(--primary); font-weight: 700; text-transform: uppercase; font-size: 0.82rem; letter-spacing: 1px;}
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .control-pill {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 7px 14px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .control-pill:hover { background: rgba(255,255,255,0.15); }
+
+        .stat-badge {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            font-weight: 800;
+        }
+
+        /* --- Topic / Category Selector Bar --- */
+        .category-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 14px 20px;
+            gap: 12px;
+            background: rgba(0,0,0,0.15);
+            border-bottom: 1px solid var(--glass-border);
+            flex-wrap: wrap;
+        }
+
+        .category-tab {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            padding: 8px 20px;
+            border-radius: 999px;
+            font-size: 0.92rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .category-tab:hover {
+            color: var(--text-main);
+            border-color: var(--primary);
+        }
+
+        .category-tab.active {
+            background: linear-gradient(135deg, #0284c7, #2563eb);
+            color: #ffffff;
+            border-color: #38bdf8;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+        }
+
+        /* --- Educational Mission Banner --- */
+        .mission-banner {
+            background: rgba(56, 189, 248, 0.08);
+            border-bottom: 1px solid rgba(56, 189, 248, 0.15);
+            padding: 10px 24px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--primary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* --- Main Stage --- */
+        .main-stage {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 30px;
+            position: relative;
+        }
+
+        /* Chart Canvas Area */
+        .chart-stage {
+            flex: 1;
+            min-height: 380px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            gap: 16px;
+            padding: 10px 10px 40px 10px;
+            border-bottom: 3px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        [data-theme="light"] .chart-stage {
+            border-bottom-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .chart-column {
+            flex: 1;
+            max-width: 170px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            height: 100%;
+            position: relative;
+        }
+
+        /* Top Header of the Column */
+        .col-stats {
+            text-align: center;
+            margin-bottom: 8px;
+            transition: transform 0.2s;
+        }
+
+        .col-count {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .col-pct {
+            font-size: 0.76rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* Vertical Human Queue Lane */
+        .human-lane {
+            width: 100%;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column-reverse; /* stacks from bottom upwards */
+            align-items: center;
+            gap: 3px;
+            background: rgba(0, 0, 0, 0.15);
+            border: 1px dashed rgba(255, 255, 255, 0.12);
+            border-radius: 12px 12px 0 0;
+            padding: 8px 4px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="light"] .human-lane {
+            background: rgba(241, 245, 249, 0.7);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .human-lane.leader {
+            border-color: var(--accent);
+            background: rgba(245, 158, 11, 0.08);
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.15);
+        }
+
+        /* Human Avatar Figure */
+        .human-figure {
+            width: 90%;
+            height: 28px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 1rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            animation: personJoin 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.2s;
+        }
+
+        [data-theme="light"] .human-figure {
+            background: #ffffff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            border-color: rgba(0,0,0,0.1);
+        }
+
+        .human-figure:hover {
+            transform: scale(1.08);
+            z-index: 5;
+        }
+
+        .human-name {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--text-main);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 75px;
+        }
+
+        @keyframes personJoin {
+            0% { transform: translateY(-30px) scale(0.3); opacity: 0; }
+            70% { transform: translateY(4px) scale(1.1); }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        /* Base Floor Label of each Column */
+        .col-base {
+            margin-top: 10px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .col-icon {
+            font-size: 2.2rem;
+            line-height: 1;
+            margin-bottom: 4px;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
+        }
+
+        .col-label {
+            font-size: 0.92rem;
+            font-weight: 800;
+            color: var(--text-main);
+            line-height: 1.2;
+        }
+
+        .col-sub {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* --- Participant Action Panel --- */
+        .participant-panel {
+            background: rgba(0,0,0,0.25);
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            padding: 16px 24px;
+            margin-top: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        [data-theme="light"] .participant-panel {
+            background: rgba(255,255,255,0.7);
+        }
+
+        .panel-prompt {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .panel-prompt-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .panel-prompt-sub {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .panel-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-vote {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 10px 16px;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-vote:hover {
+            background: var(--card-hover);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .btn-vote:active {
+            transform: scale(0.96);
+        }
+
+        .btn-random-crowd {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #fff;
+            border: none;
+            padding: 11px 20px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35);
+            transition: all 0.2s;
+        }
+
+        .btn-random-crowd:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(217, 119, 6, 0.45);
+        }
+
+        .btn-reset-chart {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-size: 0.86rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-reset-chart:hover {
+            color: var(--text-main);
+            border-color: rgba(244, 63, 94, 0.5);
+        }
+
+        /* --- Footer Concept Explainer --- */
+        .concept-footer {
+            background: rgba(0,0,0,0.3);
+            border-top: 1px solid var(--glass-border);
+            padding: 14px 36px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            border-radius: 0 0 24px 24px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        [data-theme="light"] .concept-footer {
+            background: rgba(248, 250, 252, 0.9);
+        }
+
+        .concept-highlight {
+            color: var(--primary);
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="kiosk-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-brand">
+                <a href="index.html" class="home-btn" title="Back to Central Games Hub">
+                    <span>🏠</span> <span id="btn-home-text">All Games Hub</span>
+                </a>
+                <div class="header-title-box">
+                    <p id="hdr-sub">Directorate of Economics & Statistics • Chhattisgarh</p>
+                    <h1 id="hdr-title">Human Bar Chart: Participatory Data</h1>
+                </div>
+            </div>
+
+            <div class="header-controls">
+                <button class="control-pill" onclick="toggleTheme()" id="theme-btn">☀️ Light</button>
+                <button class="control-pill" onclick="toggleLanguage()" id="lang-btn">🌐 हिंदी</button>
+                <div class="stat-badge">
+                    <span id="badge-total-label">Participants:</span> <span id="total-participants">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Topic Categories -->
+        <nav class="category-nav">
+            <button class="category-tab active" onclick="switchCategory('dish')" id="tab-dish">
+                🍲 <span id="tab-dish-text">Local Delicacies</span>
+            </button>
+            <button class="category-tab" onclick="switchCategory('region')" id="tab-region">
+                📍 <span id="tab-region-text">Chhattisgarh Regions</span>
+            </button>
+            <button class="category-tab" onclick="switchCategory('age')" id="tab-age">
+                👥 <span id="tab-age-text">Age Groups</span>
+            </button>
+        </nav>
+
+        <!-- Educational Jargon-Free Mission Banner -->
+        <div class="mission-banner">
+            <span>💡</span>
+            <span id="mission-text">
+                <b>No Complex Formulas!</b> Every participant who lines up creates 1 unit of data. Together, the queue forms a living Bar Chart!
+            </span>
+        </div>
+
+        <!-- Main Interactive Bar Chart Stage -->
+        <main class="main-stage">
+            <div class="chart-stage" id="chart-columns-container">
+                <!-- Columns dynamically rendered -->
+            </div>
+
+            <!-- Participant Join Controls -->
+            <div class="participant-panel">
+                <div class="panel-prompt">
+                    <div class="panel-prompt-title" id="prompt-title">Step up and join a line:</div>
+                    <div class="panel-prompt-sub" id="prompt-sub">Tap any category to add yourself to that bar!</div>
+                </div>
+
+                <div class="panel-actions" id="vote-actions">
+                    <!-- Dynamic vote buttons injected -->
+                </div>
+                
+                <div style="display:flex; gap:8px;">
+                    <button class="btn-random-crowd" onclick="simulateCrowd(3)" id="btn-crowd">
+                        👥 +3 Random Citizens
+                    </button>
+                    <button class="btn-reset-chart" onclick="resetCurrentChart()" id="btn-reset" title="Clear this chart">
+                        ↺ Reset
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Explainer Footer -->
+        <footer class="concept-footer">
+            <div>
+                <span class="concept-highlight" id="footer-highlight">How Survey Data Works:</span>
+                <span id="footer-desc">When citizens are counted by categories, policy makers at DES Chhattisgarh know exactly where to allocate resources.</span>
+            </div>
+            <div>
+                <span style="font-weight:700; color:var(--text-main);">DES • Rajyotsav Exhibition</span>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('contextmenu', event => event.preventDefault()); // Kiosk protection
+
+        // Sound Synthesis (Web Audio API)
+        const AudioFX = {
+            ctx: null,
+            init() {
+                if (!this.ctx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    if (AudioContext) this.ctx = new AudioContext();
+                }
+            },
+            playStep() {
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(320, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(540, this.ctx.currentTime + 0.12);
+                    gain.gain.setValueAtTime(0.18, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.12);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.12);
+                } catch(e) {}
+            },
+            playCheer() {
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    const notes = [440, 554.37, 659.25, 880];
+                    notes.forEach((freq, idx) => {
+                        const osc = this.ctx.createOscillator();
+                        const gain = this.ctx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.08);
+                        gain.gain.setValueAtTime(0.15, this.ctx.currentTime + idx * 0.08);
+                        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.08 + 0.2);
+                        osc.connect(gain);
+                        gain.connect(this.ctx.destination);
+                        osc.start(this.ctx.currentTime + idx * 0.08);
+                        osc.stop(this.ctx.currentTime + idx * 0.08 + 0.2);
+                    });
+                } catch(e) {}
+            }
+        };
+
+        // Datasets
+        const DATASETS = {
+            dish: {
+                titleEn: "Favourite Chhattisgarhi Dish",
+                titleHi: "पसंदीदा छत्तीसगढ़ी व्यंजन",
+                columns: [
+                    { id: 'fara', icon: '🥟', nameEn: 'Fara', nameHi: 'चावल फरा', subEn: 'Steamed Rice Rolls', subHi: 'भाप में पके', color: '#f59e0b', people: [] },
+                    { id: 'chila', icon: '🥞', nameEn: 'Chila', nameHi: 'चीला रोटी', subEn: 'Crisp Rice Crepe', subHi: 'पारंपरिक नाश्ता', color: '#10b981', people: [] },
+                    { id: 'bafauri', icon: '🧆', nameEn: 'Bafauri', nameHi: 'चना बफौरी', subEn: 'Steamed Dal Balls', subHi: 'चना दाल व्यंजन', color: '#06b6d4', people: [] },
+                    { id: 'dubki', icon: '🍲', nameEn: 'Dubki Kadi', nameHi: 'डुबकी कढ़ी', subEn: 'Spiced Kadhi', subHi: 'दाल व कढ़ी', color: '#c084fc', people: [] },
+                    { id: 'muthiya', icon: '🍢', nameEn: 'Muthiya', nameHi: 'मुठिया', subEn: 'Zesty Rice Snack', subHi: 'भाप में बना नाश्ता', color: '#ec4899', people: [] }
+                ]
+            },
+            region: {
+                titleEn: "Home Region / Division",
+                titleHi: "आपका गृह संभाग / क्षेत्र",
+                columns: [
+                    { id: 'raipur', icon: '🏛️', nameEn: 'Raipur', nameHi: 'रायपुर', subEn: 'Capital Division', subHi: 'राजधानी संभाग', color: '#38bdf8', people: [] },
+                    { id: 'bilaspur', icon: '🚂', nameEn: 'Bilaspur', nameHi: 'बिलासपुर', subEn: 'High Court & Rail Hub', subHi: 'न्यायधानी संभाग', color: '#f59e0b', people: [] },
+                    { id: 'durg', icon: '🏭', nameEn: 'Durg-Bhilai', nameHi: 'दुर्ग-भिलाई', subEn: 'Steel & Education', subHi: 'इस्पात नगरी', color: '#10b981', people: [] },
+                    { id: 'bastar', icon: '🌲', nameEn: 'Bastar', nameHi: 'बस्तर', subEn: 'Chitrakote & Forests', subHi: 'वन एवं संस्कृति', color: '#14b8a6', people: [] },
+                    { id: 'surguja', icon: '⛰️', nameEn: 'Surguja', nameHi: 'सरगुजा', subEn: 'Mainpat Hills', subHi: 'हिल स्टेशन व प्रकृति', color: '#a855f7', people: [] }
+                ]
+            },
+            age: {
+                titleEn: "Age Demographics",
+                titleHi: "आयु वर्ग सांख्यिकी",
+                columns: [
+                    { id: 'youth', icon: '🎒', nameEn: 'Under 18', nameHi: '18 से कम', subEn: 'Children & Students', subHi: 'विद्यार्थी व बच्चे', color: '#06b6d4', people: [] },
+                    { id: 'young_adult', icon: '💻', nameEn: '18 – 35 Yrs', nameHi: '18 – 35 वर्ष', subEn: 'Youth & Workforce', subHi: 'युवा कार्यबल', color: '#3b82f6', people: [] },
+                    { id: 'adult', icon: '👔', nameEn: '36 – 55 Yrs', nameHi: '36 – 55 वर्ष', subEn: 'Experienced Leaders', subHi: 'प्रौढ़ व परिवारजन', color: '#f59e0b', people: [] },
+                    { id: 'senior', icon: '👓', nameEn: '55+ Years', nameHi: '55 वर्ष से अधिक', subEn: 'Honoured Seniors', subHi: 'वरिष्ठ नागरिक', color: '#10b981', people: [] }
+                ]
+            }
+        };
+
+        const AVATARS = [
+            '🚶‍♂️', '🚶‍♀️', '🧑‍🌾', '👩‍🍳', '👨‍🎓', '👩‍⚕️', '👧', '👦', '🧑‍💼', '🧕', '👷‍♂️'
+        ];
+
+        const CITIZEN_NAMES_EN = ['Aman', 'Kavita', 'Ramesh', 'Pooja', 'Sunil', 'Meena', 'Dipak', 'Ananya', 'Vijay', 'Shweta', 'Rahul', 'Jyoti'];
+        const CITIZEN_NAMES_HI = ['अमन', 'कविता', 'रमेश', 'पूजा', 'सुनील', 'मीना', 'दीपक', 'अनन्या', 'विजय', 'श्वेता', 'राहुल', 'ज्योति'];
+
+        let currentCategory = 'dish';
+        let currentLang = localStorage.getItem('cg_arcade_lang') || 'en';
+        let currentTheme = localStorage.getItem('cg_arcade_theme') || 'dark';
+
+        const I18N = {
+            en: {
+                homeBtn: "All Games Hub",
+                hdrSub: "Directorate of Economics & Statistics • Chhattisgarh",
+                hdrTitle: "Human Bar Chart: Participatory Data",
+                themeLight: "☀️ Light",
+                themeDark: "🌙 Dark",
+                totalBadge: "Participants:",
+                tabDish: "Local Delicacies",
+                tabRegion: "Chhattisgarh Regions",
+                tabAge: "Age Groups",
+                mission: "<b>No Complex Formulas!</b> Every participant who lines up creates 1 unit of data. Together, the queue forms a living Bar Chart!",
+                promptTitle: "Step up and join a line:",
+                promptSub: "Tap any category button below to stand in that column!",
+                btnCrowd: "👥 +3 Random Citizens",
+                btnReset: "↺ Reset",
+                footerHighlight: "How Survey Data Works:",
+                footerDesc: "When citizens are counted by categories, policy makers at DES Chhattisgarh know exactly where to allocate resources."
+            },
+            hi: {
+                homeBtn: "सभी खेल केंद्र",
+                hdrSub: "आर्थिक एवं सांख्यिकी संचालनालय • छत्तीसगढ़",
+                hdrTitle: "जीवंत मानव बार चार्ट: जन-सांख्यिकी",
+                themeLight: "☀️ लाइट",
+                themeDark: "🌙 डार्क",
+                totalBadge: "कुल प्रतिभागी:",
+                tabDish: "पारंपरिक व्यंजन",
+                tabRegion: "छत्तीसगढ़ संभाग",
+                tabAge: "आयु वर्ग",
+                mission: "<b>कोई जटिल फॉर्मूला नहीं!</b> प्रत्येक व्यक्ति कतार में जुड़कर एक आंकड़ा बनाता है। सभी कतारें मिलकर एक प्रत्यक्ष बार चार्ट रचती हैं!",
+                promptTitle: "आगे आएं और कतार में खड़े हों:",
+                promptSub: "अपनी पसंद के बटन को छूकर उस स्तंभ की कतार में शामिल हों!",
+                btnCrowd: "👥 +3 नागरिक जोड़ें",
+                btnReset: "↺ रीसेट",
+                footerHighlight: "सांख्यिकी सर्वेक्षण कैसे काम करता है:",
+                footerDesc: "जब नागरिकों की श्रेणीवार गणना होती है, तो योजनाकारों को नीतियों व विकास निधियों के सटीक आवंटन की सही दिशा मिलती है।"
+            }
+        };
+
+        function applyTheme(theme) {
+            currentTheme = theme;
+            document.documentElement.setAttribute('data-theme', theme);
+            try { localStorage.setItem('cg_arcade_theme', theme); } catch(e) {}
+            const themeBtn = document.getElementById('theme-btn');
+            const t = I18N[currentLang];
+            if (themeBtn) themeBtn.innerText = theme === 'dark' ? t.themeLight : t.themeDark;
+        }
+
+        function toggleTheme() {
+            AudioFX.playStep();
+            applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+        }
+
+        function applyLanguage(lang) {
+            currentLang = lang;
+            try { localStorage.setItem('cg_arcade_lang', lang); } catch(e) {}
+            const t = I18N[lang];
+
+            document.getElementById('btn-home-text').innerText = t.homeBtn;
+            document.getElementById('hdr-sub').innerText = t.hdrSub;
+            document.getElementById('hdr-title').innerText = t.hdrTitle;
+            document.getElementById('badge-total-label').innerText = t.totalBadge;
+            document.getElementById('tab-dish-text').innerText = t.tabDish;
+            document.getElementById('tab-region-text').innerText = t.tabRegion;
+            document.getElementById('tab-age-text').innerText = t.tabAge;
+            document.getElementById('mission-text').innerHTML = t.mission;
+            document.getElementById('prompt-title').innerText = t.promptTitle;
+            document.getElementById('prompt-sub').innerText = t.promptSub;
+            document.getElementById('btn-crowd').innerText = t.btnCrowd;
+            document.getElementById('btn-reset').innerText = t.btnReset;
+            document.getElementById('footer-highlight').innerText = t.footerHighlight;
+            document.getElementById('footer-desc').innerText = t.footerDesc;
+
+            document.getElementById('lang-btn').innerText = lang === 'en' ? '🌐 हिंदी' : '🌐 English';
+            const themeBtn = document.getElementById('theme-btn');
+            if (themeBtn) themeBtn.innerText = currentTheme === 'dark' ? t.themeLight : t.themeDark;
+
+            renderChart();
+        }
+
+        function toggleLanguage() {
+            AudioFX.playStep();
+            applyLanguage(currentLang === 'en' ? 'hi' : 'en');
+        }
+
+        function switchCategory(catKey) {
+            AudioFX.playStep();
+            currentCategory = catKey;
+            
+            ['dish', 'region', 'age'].forEach(k => {
+                const tab = document.getElementById(`tab-${k}`);
+                if (tab) {
+                    if (k === catKey) tab.classList.add('active');
+                    else tab.classList.remove('active');
+                }
+            });
+
+            renderChart();
+        }
+
+        function addPerson(colId, customName = null, customAvatar = null) {
+            AudioFX.playStep();
+            const dataset = DATASETS[currentCategory];
+            const col = dataset.columns.find(c => c.id === colId);
+            if (!col) return;
+
+            const avatar = customAvatar || AVATARS[Math.floor(Math.random() * AVATARS.length)];
+            const namesList = currentLang === 'hi' ? CITIZEN_NAMES_HI : CITIZEN_NAMES_EN;
+            const name = customName || namesList[Math.floor(Math.random() * namesList.length)];
+
+            col.people.push({ name, avatar });
+            renderChart();
+        }
+
+        function simulateCrowd(count = 3) {
+            AudioFX.playCheer();
+            const dataset = DATASETS[currentCategory];
+            for (let i = 0; i < count; i++) {
+                const randomCol = dataset.columns[Math.floor(Math.random() * dataset.columns.length)];
+                const avatar = AVATARS[Math.floor(Math.random() * AVATARS.length)];
+                const namesList = currentLang === 'hi' ? CITIZEN_NAMES_HI : CITIZEN_NAMES_EN;
+                const name = namesList[Math.floor(Math.random() * namesList.length)];
+                randomCol.people.push({ name, avatar });
+            }
+            renderChart();
+        }
+
+        function resetCurrentChart() {
+            AudioFX.playStep();
+            const dataset = DATASETS[currentCategory];
+            dataset.columns.forEach(c => c.people = []);
+            renderChart();
+        }
+
+        function renderChart() {
+            const dataset = DATASETS[currentCategory];
+            const container = document.getElementById('chart-columns-container');
+            const actionsContainer = document.getElementById('vote-actions');
+            
+            let total = 0;
+            let maxCount = 0;
+            dataset.columns.forEach(c => {
+                total += c.people.length;
+                if (c.people.length > maxCount) maxCount = c.people.length;
+            });
+
+            document.getElementById('total-participants').innerText = total;
+
+            // Render Columns
+            container.innerHTML = '';
+            dataset.columns.forEach(col => {
+                const isLeader = maxCount > 0 && col.people.length === maxCount;
+                const pct = total > 0 ? Math.round((col.people.length / total) * 100) : 0;
+                const colName = currentLang === 'hi' ? col.nameHi : col.nameEn;
+                const colSub = currentLang === 'hi' ? col.subHi : col.subEn;
+
+                const colEl = document.createElement('div');
+                colEl.className = 'chart-column';
+
+                let peopleHtml = '';
+                col.people.forEach(p => {
+                    peopleHtml += `
+                        <div class="human-figure" title="${p.name}">
+                            <span>${p.avatar}</span>
+                            <span class="human-name">${p.name}</span>
+                        </div>
+                    `;
+                });
+
+                colEl.innerHTML = `
+                    <div class="col-stats">
+                        <div class="col-count">${col.people.length}</div>
+                        <div class="col-pct">${pct}%</div>
+                    </div>
+                    <div class="human-lane ${isLeader ? 'leader' : ''}">
+                        ${peopleHtml}
+                    </div>
+                    <div class="col-base">
+                        <div class="col-icon">${col.icon}</div>
+                        <div class="col-label">${colName}</div>
+                        <div class="col-sub">${colSub}</div>
+                    </div>
+                `;
+
+                container.appendChild(colEl);
+            });
+
+            // Render Action Voting Buttons
+            actionsContainer.innerHTML = '';
+            dataset.columns.forEach(col => {
+                const colName = currentLang === 'hi' ? col.nameHi : col.nameEn;
+                const btn = document.createElement('button');
+                btn.className = 'btn-vote';
+                btn.onclick = () => addPerson(col.id);
+                btn.innerHTML = `<span>${col.icon}</span> <span>${colName}</span>`;
+                actionsContainer.appendChild(btn);
+            });
+        }
+
+        // Initialize with realistic seed participants for immediate vibrant visualization
+        function seedInitialData() {
+            DATASETS.dish.columns[0].people = [{ name: 'सुनील', avatar: '🧑‍🌾' }, { name: 'Pooja', avatar: '👩‍🍳' }, { name: 'Aman', avatar: '🚶‍♂️' }, { name: 'Kavita', avatar: '👩‍⚕️' }];
+            DATASETS.dish.columns[1].people = [{ name: 'दीपक', avatar: '👨‍🎓' }, { name: 'Ramesh', avatar: '🚶‍♂️' }, { name: 'Meena', avatar: '🧕' }];
+            DATASETS.dish.columns[2].people = [{ name: 'राहुल', avatar: '👦' }, { name: 'Shweta', avatar: '👧' }];
+            DATASETS.dish.columns[3].people = [{ name: 'विजय', avatar: '👷‍♂️' }];
+            DATASETS.dish.columns[4].people = [{ name: 'अनन्या', avatar: '👩‍🍳' }, { name: 'Jyoti', avatar: '🚶‍♀️' }];
+
+            DATASETS.region.columns[0].people = [{ name: 'Aman', avatar: '🚶‍♂️' }, { name: 'Ramesh', avatar: '🧑‍💼' }, { name: 'Kavita', avatar: '👩‍⚕️' }, { name: 'Pooja', avatar: '👩‍🍳' }];
+            DATASETS.region.columns[1].people = [{ name: 'सुनील', avatar: '🧑‍🌾' }, { name: 'दीपक', avatar: '👨‍🎓' }, { name: 'Meena', avatar: '🧕' }];
+            DATASETS.region.columns[2].people = [{ name: 'राहुल', avatar: '👦' }, { name: 'विजय', avatar: '👷‍♂️' }, { name: 'Shweta', avatar: '👧' }, { name: 'अनन्या', avatar: '👩‍🍳' }];
+            DATASETS.region.columns[3].people = [{ name: 'Jyoti', avatar: '🚶‍♀️' }, { name: 'मंगत', avatar: '🧑‍🌾' }];
+            DATASETS.region.columns[4].people = [{ name: 'दिलीप', avatar: '🚶‍♂️' }];
+
+            DATASETS.age.columns[0].people = [{ name: 'Ritu', avatar: '👧' }, { name: 'रोहन', avatar: '👦' }, { name: 'Mohit', avatar: '🎒' }];
+            DATASETS.age.columns[1].people = [{ name: 'Aman', avatar: '🚶‍♂️' }, { name: 'दीपक', avatar: '👨‍🎓' }, { name: 'Pooja', avatar: '👩‍🍳' }, { name: 'Shweta', avatar: '👧' }, { name: 'विजय', avatar: '💻' }];
+            DATASETS.age.columns[2].people = [{ name: 'Ramesh', avatar: '🧑‍💼' }, { name: 'सुनील', avatar: '🧑‍🌾' }, { name: 'Meena', avatar: '🧕' }];
+            DATASETS.age.columns[3].people = [{ name: 'देवराज', avatar: '👓' }, { name: 'कमला', avatar: '🧓' }];
+        }
+
+        window.onload = () => {
+            seedInitialData();
+            applyTheme(currentTheme);
+            applyLanguage(currentLang);
+        };
+    </script>
+</body>
+</html>
